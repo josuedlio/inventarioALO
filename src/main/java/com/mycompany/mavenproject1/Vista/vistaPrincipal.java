@@ -115,11 +115,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jmPersonalMouseClicked
 
     private void jmiDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDepartamentoActionPerformed
-        System.out.println("Hola");
+        vistaD v = new vistaD();
+        v.setVisible(true);
     }//GEN-LAST:event_jmiDepartamentoActionPerformed
 
     private void jmiEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEmpleadosActionPerformed
         System.out.println("Empleados");
+        vistaEmpleados ve = new vistaEmpleados(this, true);
+        ve.setVisible(true);
     }//GEN-LAST:event_jmiEmpleadosActionPerformed
 
     private void jmiTipoArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiTipoArticulosActionPerformed
