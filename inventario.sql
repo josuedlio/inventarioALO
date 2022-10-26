@@ -18,18 +18,20 @@ idDepartamento int not null,
 constraint fk_departamento foreign key (idDepartamento) references Departamento(idDepartamento)
 )
 
-create table TipoArticulo(
+create table Categoria(
 idTipo int identity(1,1) primary key not null,
 nombreTipo varchar(50)
 )
 
 create table Articulos(
 idArticulo int identity(1,1) primary key not null,
-descrip varchar(60),
+descrip varchar(170),
 modelo varchar(30),
 marca varchar (20),
+almacenamiento varchar(50),
+numSerie varchar (70),
 idTipo int not null,
-constraint fk_tipoArticulo foreign key (idTipo) references TipoArticulo(idTipo)
+constraint fk_tipoArticulo foreign key (idTipo) references Categoria(idTipo)
 )
 
 create table Gestion(
@@ -51,13 +53,13 @@ insert into Empleado values ('Josue','De La Iglesia','Ochoa','Activo','20/Sep/20
 insert into Empleado values ('Josue','Yepez','Ponce','Activo','20/Ene/2022','',1)
 insert into Empleado values ('Angel Aaron','Figueroa','Contreras','Activo','20/Nov/2021','',1)
 
-insert into TipoArticulo values('Monitor')
-insert into TipoArticulo values ('CPU')
-insert into TipoArticulo values ('Laptop')
+insert into Categoria values('Monitor')
+insert into Categoria values ('CPU')
+insert into Categoria values ('Laptop')
 
-insert into Articulos values ('Monitor','Optiplex 3060','DELL',2)
-insert into Articulos values ('CPU','E2417H 24','DELL',1)
-insert into Articulos values ('Laptop','INSPIRON 3480 I5','DELL',3)
+insert into Articulos values ('Monitor','Optiplex 3060','DELL','1TB','JAKSJUA234422',2)
+insert into Articulos values ('CPU','E2417H 24','DELL','1TB','JAKSJTT234422',1)
+insert into Articulos values ('Laptop','INSPIRON 3480 I5','DELL','1TB','JAKSJUA27766422',3)
 
 
 insert into Gestion values (1,3,'20/09/2022')

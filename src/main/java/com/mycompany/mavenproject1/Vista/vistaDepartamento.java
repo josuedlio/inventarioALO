@@ -4,18 +4,39 @@
  */
 package com.mycompany.mavenproject1.Vista;
 
+import com.mycompany.mavenproject1.ConexionSQL;
+import com.mycompany.mavenproject1.Controlador.controladorDepartamento;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author infraver
  */
-public class vistaD extends javax.swing.JDialog {
+public class vistaDepartamento extends javax.swing.JDialog {
 
-    /**
-     * Creates new form vistaD
-     */
-    public vistaD() {
+    public DefaultTableModel dtmDepartamento;
+    ConexionSQL db = new ConexionSQL();
+    PreparedStatement ps;
+    ResultSet rs;
+    Connection cn;
+    CallableStatement cts;
+
+    public vistaDepartamento() {
         initComponents();
         setTitle("Departamentos");
+        Border borde = new TitledBorder("Departamento");
+
+        jtfDepartamento.setBorder(borde);
+        db.connectDB();
+        this.dtmDepartamento = (DefaultTableModel) this.jTablaDepartamento.getModel();
+        loadDatos();
+
     }
 
     /**
@@ -27,21 +48,77 @@ public class vistaD extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
-        );
+        jpPrincipal = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jtfDepartamento = new javax.swing.JTextField();
+        btnAgregar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTablaDepartamento = new javax.swing.JTable();
+
+        jpPrincipal.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+        jPanel2.add(jtfDepartamento, java.awt.BorderLayout.CENTER);
+
+        btnAgregar.setText("Agregar");
+        jPanel2.add(btnAgregar, java.awt.BorderLayout.LINE_END);
+
+        jpPrincipal.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jTablaDepartamento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Departamento"
+            }
+        ));
+        jScrollPane1.setViewportView(jTablaDepartamento);
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jpPrincipal.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jpPrincipal, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable jTablaDepartamento;
+    private javax.swing.JPanel jpPrincipal;
+    public static javax.swing.JTextField jtfDepartamento;
     // End of variables declaration//GEN-END:variables
+
+    private void loadDatos() {
+        String sQuery = """
+                       SELECT idDepartamento, nombreDepartamento FROM Departamento
+                        """;
+        if (this.db.conn != null) {
+            try {
+                ps = this.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+
+                this.dtmDepartamento.setRowCount(0);
+                while (rs.next()) {
+                    this.dtmDepartamento.addRow(new Object[]{
+                        rs.getString("idDepartamento"),
+                        rs.getString("nombreDepartamento")
+                    });
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
 }

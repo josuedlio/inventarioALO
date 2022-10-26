@@ -24,7 +24,7 @@ public class ConexionSQL {
 
         try {
             this.conn = DriverManager.getConnection(this.dbUrl + "user=" + this.sUsuario + ";password=" + this.sPassword);
-            System.out.println("conectado.");
+            System.out.println("conectado");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
