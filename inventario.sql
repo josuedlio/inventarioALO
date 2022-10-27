@@ -1,9 +1,10 @@
 create database inventarioALO
 use inventarioALO
 
+
 create table Departamento(
 idDepartamento int identity(1,1) primary key not null,
-nombreDepartamento varchar(70)
+nombreDepartamento varchar(70) unique
 )
 
 create table Empleado(
@@ -30,6 +31,8 @@ modelo varchar(30),
 marca varchar (20),
 almacenamiento varchar(50),
 numSerie varchar (70),
+fechaRecepcion varchar(12),
+folio varchar(30),
 idTipo int not null,
 constraint fk_tipoArticulo foreign key (idTipo) references Categoria(idTipo)
 )
@@ -77,18 +80,21 @@ inner join Empleado E on E.idEmpleado = G.idEmpleado inner join Articulos A on A
 
 select * from Departamento
 select * from Empleado
-select * from TipoArticulo
+select * from Categoria
 select * from Articulos
 select * from Gestion
 
+--update Departamento set nombreDepartamento = 'Contaduría' where idDepartamento = '4' 
+
+delete from Departamento where idDepartamento = 6
 
 
 
 
 
 -----------------
-drop table Empleado
-drop table Departamento
-drop table Articulos
-drop table TipoArticulo
 drop table Gestion
+drop table Empleado
+drop table Articulos
+drop table Departamento
+drop table Categoria
