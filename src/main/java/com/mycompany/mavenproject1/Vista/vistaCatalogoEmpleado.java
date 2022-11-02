@@ -1,8 +1,8 @@
 package com.mycompany.mavenproject1.Vista;
 
-import com.mycompany.mavenproject1.ConexionSQL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -16,7 +16,6 @@ public class vistaCatalogoEmpleado extends javax.swing.JDialog {
     ResultSet rs;
     PreparedStatement ps;
     
-    ConexionSQL db = new ConexionSQL();
 
     public vistaCatalogoEmpleado(vistaGestion padre, boolean modal) {
         super(padre.padre, modal);
@@ -69,15 +68,14 @@ public class vistaCatalogoEmpleado extends javax.swing.JDialog {
             this.padre.idEmpleado = this.rs.getInt("idEmpleado");
             this.padre.loadDatos(this.rs.getInt("idEmpleado"));
             dispose();
-        } catch (Exception e) {
-        }
+        } catch (SQLException e) {        System.out.println(e);}
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
 
-    void loadDatos() {
+    private void loadDatos() {
         String sQuery = "select idEmpleado,nombre, apellidoPaterno, apellidoMaterno from Empleado";
         
         if (this.padre.padre.db.conn != null) {
@@ -94,7 +92,7 @@ public class vistaCatalogoEmpleado extends javax.swing.JDialog {
                         rs.getString("apellidoPaterno"),
                         rs.getString("apellidoMaterno"),});
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.out.println(e);
             }
         }

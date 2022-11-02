@@ -6,6 +6,7 @@ package com.mycompany.mavenproject1.Vista;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.border.Border;
@@ -38,6 +39,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         this.dtmCategoria = (DefaultTableModel) this.jtGestion.getModel();
         loadDatos(idEmpleado);
+        System.out.println("Empleado"+idEmpleado);
     }
 
     @SuppressWarnings("unchecked")
@@ -112,7 +114,6 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         vistaCatalogoEmpleado vce = new vistaCatalogoEmpleado(this, closable);
-        
         vce.setVisible(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -128,17 +129,17 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jcmboCategoria;
     private javax.swing.JPanel jpCentro;
     private javax.swing.JTable jtGestion;
-    private javax.swing.JTextField jtfEmpleado;
+    public static javax.swing.JTextField jtfEmpleado;
     private javax.swing.JTextField jtfFecha;
     // End of variables declaration//GEN-END:variables
 
     public void loadDatos(int idEmpleado) {
-        System.out.println("Hola");
+        System.out.println("Hola"+idEmpleado);
         String sQuery = "";
 
         if (idEmpleado <= 0) {
             sQuery = """
-                         select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
+                        select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
                         Empleado.apellidoMaterno as apellidoMaterno, Articulos.descrip as descrip,
                         Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
                         Gestion.fechaEntrega from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
@@ -164,21 +165,21 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                 while (rs.next()) {
                     this.dtmCategoria.addRow(new Object[]{
                         rs.getString("idEmpleado"),
-                      this.nombre =  rs.getString("nombre"),
-                        this.apellidoP = rs.getString("apellidoPaterno"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidoPaterno"),
                         rs.getString("apellidoMaterno"),
                         rs.getString("descrip"),
                         rs.getString("marca"),
                         rs.getString("modelo"),
                         rs.getString("numSerie"),
                         rs.getString("fechaEntrega")
-                    }); 
+                        
+                    });
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 System.out.println(e);
             }
         }
-
     }
 
     public static String getFecha() {
