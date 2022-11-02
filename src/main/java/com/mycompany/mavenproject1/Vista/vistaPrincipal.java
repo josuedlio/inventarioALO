@@ -1,13 +1,24 @@
 package com.mycompany.mavenproject1.Vista;
 
+import com.mycompany.mavenproject1.ConexionSQL;
+import java.awt.Dimension;
+
 public class vistaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form vistaPrincipal
-     */
+    public ConexionSQL db;
+    
+    
     public vistaPrincipal() {
         initComponents();
+        this.conectar();
     }
+    
+    private void conectar(){
+        this.db = new ConexionSQL();
+        this.db.connectDB();
+    }
+    
+    vistaGestion vg;
     
     
     
@@ -15,28 +26,30 @@ public class vistaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         jpPrincipal = new javax.swing.JPanel();
+        jpCentro = new javax.swing.JPanel();
+        escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmPersonal = new javax.swing.JMenu();
         jmiDepartamento = new javax.swing.JMenuItem();
         jmiEmpleados = new javax.swing.JMenuItem();
         jmArticulos = new javax.swing.JMenu();
-        jmiTipoArticulos = new javax.swing.JMenuItem();
         jmiverArticulos = new javax.swing.JMenuItem();
-        jmGestion = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jpPrincipalLayout = new javax.swing.GroupLayout(jpPrincipal);
-        jpPrincipal.setLayout(jpPrincipalLayout);
-        jpPrincipalLayout.setHorizontalGroup(
-            jpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 753, Short.MAX_VALUE)
-        );
-        jpPrincipalLayout.setVerticalGroup(
-            jpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 346, Short.MAX_VALUE)
-        );
+        jpPrincipal.setLayout(new java.awt.BorderLayout());
+
+        jpCentro.setLayout(new java.awt.BorderLayout());
+        jpCentro.add(escritorio, java.awt.BorderLayout.CENTER);
+
+        jpPrincipal.add(jpCentro, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpPrincipal, java.awt.BorderLayout.CENTER);
 
@@ -72,14 +85,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         jmArticulos.setText("Articulos");
 
-        jmiTipoArticulos.setText("Tipo Articulos");
-        jmiTipoArticulos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiTipoArticulosActionPerformed(evt);
-            }
-        });
-        jmArticulos.add(jmiTipoArticulos);
-
         jmiverArticulos.setText("Ver Articulos");
         jmiverArticulos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,20 +93,37 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
         jmArticulos.add(jmiverArticulos);
 
+        jMenuItem1.setText("Categorias");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jmArticulos.add(jMenuItem1);
+
         jMenuBar1.add(jmArticulos);
 
-        jmGestion.setText("Administración");
-        jmGestion.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenu1.setText("Gestion");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jmGestionMouseClicked(evt);
+                jMenu1MouseClicked(evt);
             }
         });
-        jmGestion.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmGestionActionPerformed(evt);
+                jMenu1ActionPerformed(evt);
             }
         });
-        jMenuBar1.add(jmGestion);
+
+        jMenuItem3.setText("Prueba");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -115,7 +137,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jmPersonalMouseClicked
 
     private void jmiDepartamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDepartamentoActionPerformed
-        vistaDepartamento v = new vistaDepartamento();
+        vistaDepartamento v = new vistaDepartamento(this, true);
         v.setVisible(true);
     }//GEN-LAST:event_jmiDepartamentoActionPerformed
 
@@ -125,31 +147,50 @@ public class vistaPrincipal extends javax.swing.JFrame {
         ve.setVisible(true);
     }//GEN-LAST:event_jmiEmpleadosActionPerformed
 
-    private void jmiTipoArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiTipoArticulosActionPerformed
-        System.out.println("Tipo Articulos");
-    }//GEN-LAST:event_jmiTipoArticulosActionPerformed
-
     private void jmiverArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiverArticulosActionPerformed
         System.out.println("Ver Articulos");
+        vistaArticulos va = new vistaArticulos(this, true);
+        va.setVisible(true);
+        
     }//GEN-LAST:event_jmiverArticulosActionPerformed
 
-    private void jmGestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmGestionActionPerformed
-        
-    }//GEN-LAST:event_jmGestionActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        vistaCategoria vc = new vistaCategoria(this, true);
+        vc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jmGestionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmGestionMouseClicked
-        System.out.println("Administrar");
-    }//GEN-LAST:event_jmGestionMouseClicked
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+
+        
+    }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+       
+        
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        vistaGestion vg = new vistaGestion(this);
+        escritorio.add(vg);
+        vg.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu jmArticulos;
-    private javax.swing.JMenu jmGestion;
     private javax.swing.JMenu jmPersonal;
     private javax.swing.JMenuItem jmiDepartamento;
     private javax.swing.JMenuItem jmiEmpleados;
-    private javax.swing.JMenuItem jmiTipoArticulos;
     private javax.swing.JMenuItem jmiverArticulos;
+    private javax.swing.JPanel jpCentro;
     private javax.swing.JPanel jpPrincipal;
     // End of variables declaration//GEN-END:variables
 }

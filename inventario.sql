@@ -20,21 +20,21 @@ constraint fk_departamento foreign key (idDepartamento) references Departamento(
 )
 
 create table Categoria(
-idTipo int identity(1,1) primary key not null,
-nombreTipo varchar(50)
+idCategoria int identity(1,1) primary key not null,
+nombreCategoria varchar(50)
 )
 
 create table Articulos(
 idArticulo int identity(1,1) primary key not null,
-descrip varchar(170),
+nombre varchar(170),
+descrip varchar(200),
 modelo varchar(30),
 marca varchar (20),
 almacenamiento varchar(50),
 numSerie varchar (70),
-fechaRecepcion varchar(12),
 folio varchar(30),
-idTipo int not null,
-constraint fk_tipoArticulo foreign key (idTipo) references Categoria(idTipo)
+idCategoria int not null,
+constraint fk_Categoria foreign key (idCategoria) references Categoria(idCategoria)
 )
 
 create table Gestion(
@@ -52,45 +52,58 @@ insert into Departamento values('TI')
 insert into Departamento values('Capital Humano')
 insert into Departamento values ('Finanzas')
 
-insert into Empleado values ('Josue','De La Iglesia','Ochoa','Activo','20/Sep/2022','20/Mar/2022',1)
+insert into Empleado(nombre,apellidoPaterno,apellidoMaterno,estatus,fechaAlta,fechaBaja,idDepartamento) values ('Josue','De La Iglesia','Ochoa','Activo','20/Sep/2022','20/Mar/2022',1)
 insert into Empleado values ('Josue','Yepez','Ponce','Activo','20/Ene/2022','',1)
 insert into Empleado values ('Angel Aaron','Figueroa','Contreras','Activo','20/Nov/2021','',1)
 
-insert into Categoria values('Monitor')
-insert into Categoria values ('CPU')
+insert into Articulos (nombre,descrip,modelo,marca,almacenamiento,numSerie,folio,idCategoria) 
+values ('Laptop','Voltro','ICORE7','DELL','1TB','8766jnghh','ABFA283',2)
+
+insert into Categoria values('Vehiculo')
+insert into Categoria values ('TI')
 insert into Categoria values ('Laptop')
 
-insert into Articulos values ('Monitor','Optiplex 3060','DELL','1TB','JAKSJUA234422',2)
-insert into Articulos values ('CPU','E2417H 24','DELL','1TB','JAKSJTT234422',1)
-insert into Articulos values ('Laptop','INSPIRON 3480 I5','DELL','1TB','JAKSJUA27766422',3)
-
-
-insert into Gestion values (1,3,'20/09/2022')
+insert into Gestion values (5,1,'20/09/2022')
+insert into Gestion values (4,2,'20/03/2022')
 insert into Gestion values (2,2,'20/03/2022')
-insert into Gestion values (2,2,'20/03/2022')
-insert into Gestion values (2,3,'20/03/2022') 
+insert into Gestion values (5,4,'20/03/2022') 
 
----Muestra un inner Join en la tabla Empleado
-select nombre, apellidoMaterno, apellidoMaterno, estatus, nombreDepartamento from Empleado E
-inner join Departamento D on D.idDepartamento = E.idDepartamento
 
-select idGestion, nombre, apellidoMaterno, apellidoMaterno, estatus,descrip, marca, modelo from Gestion G
-inner join Empleado E on E.idEmpleado = G.idEmpleado inner join Articulos A on A.idArticulo = G.idArticulo
+
+
+---inner join articulos
+select Articulos.nombre as nombre,Articulos.descrip AS descripcion, Articulos.modelo AS modelo, Articulos.marca AS marca,
+Articulos.almacenamiento as almacenamiento,
+Articulos.numSerie AS numSerie, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreTipo
+from Articulos inner join
+Categoria on Categoria.idCategoria = Articulos.idCategoria
+
+
+
+
 
 
 select * from Departamento
 select * from Empleado
-select * from Categoria
 select * from Articulos
+select * from Categoria
 select * from Gestion
 
---update Departamento set nombreDepartamento = 'Contaduría' where idDepartamento = '4' 
+---Muestra un inner Join en la tabla Empleado
+select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, 
+Empleado.estatus AS estatus,Empleado.fechaAlta as fechaAlta ,Departamento.nombreDepartamento AS nombreDepartamento from Empleado
+inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
 
-delete from Departamento where idDepartamento = 6
 
 
+update Empleado set estatus = 'inactivo', fechaBaja = '20/12/2022', idDepartamento ='1 ' where idEmpleado = '1' 
 
-
+--delete from Departamento where idDepartamento = 6
+select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
+Empleado.apellidoMaterno as apellidoMaterno, Articulos.descrip as descrip,
+Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
+Gestion.fechaEntrega as fecha from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
+inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
 
 -----------------
 drop table Gestion

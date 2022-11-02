@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class vistaDepartamento extends javax.swing.JDialog {
 
     public DefaultTableModel dtmDepartamento;
-    ConexionSQL db = new ConexionSQL();
+    vistaPrincipal padre;
     PreparedStatement ps;
     ResultSet rs;
     Connection cn;
@@ -31,14 +31,16 @@ public class vistaDepartamento extends javax.swing.JDialog {
     int id;
     private String nombreDepto;
 
-    public vistaDepartamento() {
+    public vistaDepartamento(vistaPrincipal padre, boolean modal) {
+        super(padre, modal);
+        this.padre = padre;
         initComponents();
         setTitle("Departamentos");
         Border borde = new TitledBorder("Departamento");
 
         jtfDepartamento.setBorder(borde);
         jtfDepartamento.setColumns(15);
-        db.connectDB();
+
         this.dtmDepartamento = (DefaultTableModel) this.jTablaDepartamento.getModel();
         loadDatos();
 
@@ -127,6 +129,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Campo vacio", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             agregarDatos();
+            jtfDepartamento.setText("");
             loadDatos();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -178,9 +181,9 @@ public class vistaDepartamento extends javax.swing.JDialog {
                         insert into Departamento (nombreDepartamento) values (?) 
                         
                         """;
-        if (this.db.conn != null) {
+        if (this.padre.db.conn != null) {
             try {
-                ps = this.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setString(1, jtfDepartamento.getText().toUpperCase());
                 ps.execute(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
@@ -192,9 +195,9 @@ public class vistaDepartamento extends javax.swing.JDialog {
 
     private void actualizarDatos(Integer id) {
         String sQuery = "update Departamento set nombreDepartamento = ? where  idDepartamento = ?";
-        if (this.db.conn != null) {
+        if (this.padre.db.conn != null) {
             try {
-                ps = this.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setString(1, jtfDepartamento.getText().toUpperCase());
                 ps.setInt(2, id);
@@ -205,16 +208,18 @@ public class vistaDepartamento extends javax.swing.JDialog {
             }
         }
     }
-    private void borrar(Integer id){
-        String sQuery="delete from Departamento where idDepartamento = ?";
-        if (this.db.conn != null) {
+
+    private void borrar(Integer id) {
+        String sQuery = "delete from Departamento where idDepartamento = ?";
+        if (this.padre.db.conn != null) {
             try {
-                ps = this.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setInt(1, id);
                 ps.executeUpdate(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
             } catch (SQLException e) {
-                System.out.println(e);
+                JOptionPane.showMessageDialog(this, "No puedes borrar este departamento", "Error", JOptionPane.ERROR_MESSAGE);
+
             }
         }
     }
@@ -223,9 +228,9 @@ public class vistaDepartamento extends javax.swing.JDialog {
         String sQuery = """
                        SELECT idDepartamento, nombreDepartamento FROM Departamento
                         """;
-        if (this.db.conn != null) {
+        if (this.padre.db.conn != null) {
             try {
-                ps = this.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 rs = ps.executeQuery();
 
@@ -241,5 +246,4 @@ public class vistaDepartamento extends javax.swing.JDialog {
             }
         }
     }
-
 }

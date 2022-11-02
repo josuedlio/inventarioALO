@@ -4,19 +4,59 @@
  */
 package com.mycompany.mavenproject1.Vista;
 
-/**
- *
- * @author infraver
- */
+import com.mycompany.mavenproject1.Controlador.ComboItems;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
 public class vistaArticulos extends javax.swing.JDialog {
 
-    /**
-     * Creates new form vistaArticulos
-     */
-    public vistaArticulos(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    vistaPrincipal padre;
+    PreparedStatement ps;
+    ResultSet rs;
+
+    int id;
+
+    DefaultComboBoxModel dcbmTipo;
+    DefaultTableModel dtmArticulos;
+
+    public vistaArticulos(vistaPrincipal padre, boolean modal) {
+        super(padre, modal);
+        this.padre = padre;
         initComponents();
+
+        this.dcbmTipo = (DefaultComboBoxModel) this.jcbTipoArticulos.getModel();
+        this.dtmArticulos = (DefaultTableModel) this.jtArticulos.getModel();
+
         setTitle("Articulos");
+        Border bordeN = new TitledBorder("Nombre");
+        jtfNombre.setBorder(bordeN);
+        Border borderT = new TitledBorder("Categorias");
+        jcbTipoArticulos.setBorder(borderT);
+        Border borderD = new TitledBorder("Descripción");
+        jtfDescripcion.setBorder(borderD);
+        Border borderMa = new TitledBorder("Marca");
+        jtfMarca.setBorder(borderMa);
+        Border borderMo = new TitledBorder("Modelo");
+        jtfModelo.setBorder(borderMo);
+        Border borderFe = new TitledBorder("Fecha de entrega");
+        
+        Border borderAl = new TitledBorder("Almacenamiento");
+        jtfAlmacenamiento.setBorder(borderAl);
+        Border borderFo = new TitledBorder("Folio");
+        jtfFolio.setBorder(borderFo);
+        Border borderNu = new TitledBorder("No.Serie");
+        jtfNumSerie.setBorder(borderNu);
+        this.loadCategorias();
+
+        this.loadDatos();
+
     }
 
     /**
@@ -28,64 +68,229 @@ public class vistaArticulos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jpNorte = new javax.swing.JPanel();
+        btnAgregar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtArticulos = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jcbTipoArticulos = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
+        jtfNombre = new javax.swing.JTextField();
+        jtfDescripcion = new javax.swing.JTextField();
+        jtfModelo = new javax.swing.JTextField();
+        jtfMarca = new javax.swing.JTextField();
+        jtfNumSerie = new javax.swing.JTextField();
+        jtfAlmacenamiento = new javax.swing.JTextField();
+        jtfFolio = new javax.swing.JTextField();
+
+        jTextField1.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jpNorte.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        jpNorte.add(btnAgregar);
+
+        btnEliminar.setText("Borrar");
+        jpNorte.add(btnEliminar);
+
+        btnModificar.setText("Modificar");
+        jpNorte.add(btnModificar);
+
+        jPanel2.add(jpNorte, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setLayout(new java.awt.GridLayout(1, 2));
+
+        jtArticulos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Descripcion", "Modelo", "Marca", "numSerie", "Almacenamiento", "Folio", "Categoria"
+            }
+        ));
+        jScrollPane1.setViewportView(jtArticulos);
+
+        jPanel3.add(jScrollPane1);
+
+        jPanel4.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.add(jcbTipoArticulos);
+
+        jPanel4.add(jPanel5, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setLayout(new java.awt.GridLayout(8, 0));
+        jPanel6.add(jtfNombre);
+        jPanel6.add(jtfDescripcion);
+        jPanel6.add(jtfModelo);
+        jPanel6.add(jtfMarca);
+        jPanel6.add(jtfNumSerie);
+        jPanel6.add(jtfAlmacenamiento);
+        jPanel6.add(jtfFolio);
+
+        jPanel4.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        jPanel3.add(jPanel4);
+
+        jPanel2.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(vistaArticulos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(vistaArticulos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(vistaArticulos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(vistaArticulos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if (jtfDescripcion.getText().isEmpty() || jtfModelo.getText().isEmpty() || jtfMarca.getText().isEmpty()
+                || jtfAlmacenamiento.getText().isBlank() || jtfNombre.getText().isBlank() || jtfFolio.getText().isEmpty()
+                || jtfNumSerie.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Error", "Campos vacios", JOptionPane.ERROR_MESSAGE);
+        } else {
+            agregarDatos();
         }
-        //</editor-fold>
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                vistaArticulos dialog = new vistaArticulos(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> jcbTipoArticulos;
+    private javax.swing.JPanel jpNorte;
+    private javax.swing.JTable jtArticulos;
+    private javax.swing.JTextField jtfAlmacenamiento;
+    private javax.swing.JTextField jtfDescripcion;
+    private javax.swing.JTextField jtfFolio;
+    private javax.swing.JTextField jtfMarca;
+    private javax.swing.JTextField jtfModelo;
+    private javax.swing.JTextField jtfNombre;
+    private javax.swing.JTextField jtfNumSerie;
     // End of variables declaration//GEN-END:variables
+
+    private void loadCategorias() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sQuery = "SELECT idCategoria, nombreCategoria FROM Categoria";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    this.dcbmTipo.addElement(new ComboItems(Integer.toString(rs.getInt("idCategoria")), rs.getString("nombreCategoria")));
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private void loadDatos() {
+        System.out.println("hiola");
+        String sQuery = """
+                        select Articulos.nombre AS n,Articulos.descrip AS d, Articulos.modelo AS m, Articulos.marca AS ma,
+                        Articulos.almacenamiento as almacenamiento,
+                        Articulos.numSerie AS numSerie, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreCategoria
+                        from Articulos inner join
+                        Categoria on Categoria.idCategoria = Articulos.idCategoria
+                       """;
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+
+                this.dtmArticulos.setRowCount(0);
+                while (rs.next()) {
+                    this.dtmArticulos.addRow(new Object[]{
+                        rs.getString("n"),
+                        rs.getString("d"),
+                        rs.getString("m"),
+                        rs.getString("ma"),
+                        rs.getString("almacenamiento"),
+                        rs.getString("numSerie"),
+                        rs.getString("folio"),
+                        rs.getString("nombreCategoria")
+                    });
+
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void agregarDatos() {
+        String sQuery = "INSERT INTO Articulos (nombre,descrip,modelo,marca,almacenamiento,numSerie,folio,idCategoria)   "
+                + "VALUES(?,?,?,?,?,?,?,?)";
+        ComboItems oTipoAs = (ComboItems) this.jcbTipoArticulos.getSelectedItem();
+        int idTipo = 0;
+
+        if (this.jcbTipoArticulos.getSelectedItem() != null) {
+            idTipo = Integer.parseInt(oTipoAs.getKey());
+        }
+
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+               ps.setString(1, jtfNombre.getText().toUpperCase());
+               ps.setString(2, jtfDescripcion.getText().toUpperCase());
+               ps.setString(3, jtfModelo.getText().toUpperCase());
+               ps.setString(4, jtfMarca.getText().toUpperCase());
+               ps.setString(5, jtfAlmacenamiento.getText().toUpperCase());
+               ps.setString(6, jtfNumSerie.getText().toUpperCase());
+               ps.setString(7, jtfFolio.getText().toUpperCase());
+               ps.setInt(8, idTipo);
+                ps.execute();
+                loadDatos();
+                limpiarcampos();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void limpiarcampos() {
+        jtfDescripcion.setText("");
+        jtfModelo.setText("");
+        jtfMarca.setText("");
+        jtfAlmacenamiento.setText("");
+        jtfNumSerie.setText("");
+        jtfNombre.setText("");
+        jtfFolio.setText("");
+    }
+    
+    public static String getFecha() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String date = simpleDateFormat.format(new Date());
+        return date;
+    }
+
+
 }
