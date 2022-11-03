@@ -26,7 +26,7 @@ nombreCategoria varchar(50)
 
 create table Articulos(
 idArticulo int identity(1,1) primary key not null,
-nombre varchar(170),
+nombreArticulo varchar(170),
 descrip varchar(200),
 modelo varchar(30),
 marca varchar (20),
@@ -100,7 +100,7 @@ update Empleado set estatus = 'inactivo', fechaBaja = '20/12/2022', idDepartamen
 
 --delete from Departamento where idDepartamento = 6
 select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
-Empleado.apellidoMaterno as apellidoMaterno, Articulos.descrip as descrip,
+Empleado.apellidoMaterno as apellidoMaterno,Articulo.nombre as nombreA, Articulos.descrip as descrip,
 Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
 Gestion.fechaEntrega as fecha from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
 inner join Articulos on Articulos.idArticulo = Gestion.idArticulo

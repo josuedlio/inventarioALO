@@ -211,9 +211,9 @@ public class vistaArticulos extends javax.swing.JDialog {
     }
 
     private void loadDatos() {
-        System.out.println("hiola");
+//        System.out.println("hiola");
         String sQuery = """
-                        select Articulos.nombre AS n,Articulos.descrip AS d, Articulos.modelo AS m, Articulos.marca AS ma,
+                        select Articulos.nombreA AS n,Articulos.descrip AS d, Articulos.modelo AS m, Articulos.marca AS ma,
                         Articulos.almacenamiento as almacenamiento,
                         Articulos.numSerie AS numSerie, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreCategoria
                         from Articulos inner join
@@ -246,7 +246,7 @@ public class vistaArticulos extends javax.swing.JDialog {
     }
 
     private void agregarDatos() {
-        String sQuery = "INSERT INTO Articulos (nombre,descrip,modelo,marca,almacenamiento,numSerie,folio,idCategoria)   "
+        String sQuery = "INSERT INTO Articulos (nombreA,descrip,modelo,marca,almacenamiento,numSerie,folio,idCategoria)   "
                 + "VALUES(?,?,?,?,?,?,?,?)";
         ComboItems oTipoAs = (ComboItems) this.jcbTipoArticulos.getSelectedItem();
         int idTipo = 0;

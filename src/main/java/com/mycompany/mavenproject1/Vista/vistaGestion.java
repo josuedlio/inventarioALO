@@ -4,11 +4,13 @@
  */
 package com.mycompany.mavenproject1.Vista;
 
+import com.mycompany.mavenproject1.Controlador.ComboItems;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -20,10 +22,9 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     ResultSet rs;
 
     DefaultTableModel dtmCategoria;
-
-    int idEmpleado;
-    
-    private String apellidoP,nombre;
+    DefaultComboBoxModel dcbmCategoria;
+    DefaultComboBoxModel dcbmArticulos;
+    int idEmpleado, idCategoria;
 
     public vistaGestion(vistaPrincipal padre) {
         initComponents();
@@ -37,9 +38,19 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jtfFecha.setColumns(10);
         jtfFecha.setText(getFecha());
 
+        Border bordeC = new TitledBorder("Categoria");
+        jcmbCategoria.setBorder(bordeC);
+        Border bordeA = new TitledBorder("Articulos");
+        jcbArticulos.setBorder(bordeA);
+
         this.dtmCategoria = (DefaultTableModel) this.jtGestion.getModel();
+        this.dcbmCategoria = (DefaultComboBoxModel) this.jcmbCategoria.getModel();
+        this.dcbmArticulos = (DefaultComboBoxModel) this.jcbArticulos.getModel();
+        this.loadCategorias();
+        this.loadArticulos(0);
         loadDatos(idEmpleado);
-        System.out.println("Empleado"+idEmpleado);
+        System.out.println("Empleado" + idEmpleado);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -48,13 +59,15 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jcmboCategoria = new javax.swing.JComboBox<>();
+        jcbArticulos = new javax.swing.JComboBox<>();
+        jcmbCategoria = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jtfEmpleado = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jtfFecha = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jpCentro = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtGestion = new javax.swing.JTable();
@@ -67,7 +80,21 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.add(jcmboCategoria);
+        jcbArticulos.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jcbArticulosCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jPanel3.add(jcbArticulos);
+
+        jcmbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcmbCategoriaActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jcmbCategoria);
 
         jLabel1.setText("Nombre");
         jPanel3.add(jLabel1);
@@ -89,6 +116,14 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jPanel3.add(jSeparator2);
         jPanel3.add(jtfFecha);
 
+        jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1);
+
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         jpCentro.setLayout(new java.awt.BorderLayout());
@@ -98,7 +133,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido P", "Apellido M", "Descripcion", "Modelo", "Marca", "NumSerie", "Fecha Entrega"
+                "ID", "Nombre", "Apellido P", "Apellido M", "Articulo", "Descripcion", "Modelo", "Marca", "NumSerie", "Fecha Entrega"
             }
         ));
         jScrollPane2.setViewportView(jtGestion);
@@ -117,16 +152,37 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         vce.setVisible(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jcbArticulosCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jcbArticulosCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbArticulosCaretPositionChanged
+
+    private void jcmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbCategoriaActionPerformed
+        
+        ComboItems oCategoria = (ComboItems) this.jcmbCategoria.getSelectedItem();
+        
+        if( this.jcmbCategoria.getSelectedItem() != null ){
+            this.loadArticulos(Integer.parseInt(oCategoria.getKey()));
+        }
+        
+    }//GEN-LAST:event_jcmbCategoriaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        agregar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JComboBox<String> jcmboCategoria;
+    private javax.swing.JComboBox<String> jcbArticulos;
+    private javax.swing.JComboBox<String> jcmbCategoria;
     private javax.swing.JPanel jpCentro;
     private javax.swing.JTable jtGestion;
     public static javax.swing.JTextField jtfEmpleado;
@@ -134,13 +190,13 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     public void loadDatos(int idEmpleado) {
-        System.out.println("Hola"+idEmpleado);
+        System.out.println("Hola" + idEmpleado);
         String sQuery = "";
 
         if (idEmpleado <= 0) {
             sQuery = """
                         select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
-                        Empleado.apellidoMaterno as apellidoMaterno, Articulos.descrip as descrip,
+                        Empleado.apellidoMaterno as apellidoMaterno,  Articulos.nombreA as nombreA,Articulos.descrip as descrip,
                         Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
                         Gestion.fechaEntrega from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
                         inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
@@ -148,7 +204,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         } else {
             sQuery = String.format("""
                    select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
-                   Empleado.apellidoMaterno as apellidoMaterno, Articulos.descrip as descrip,
+                   Empleado.apellidoMaterno as apellidoMaterno, Articulos.nombreA as nombreA,Articulos.descrip as descrip,
                    Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
                    Gestion.fechaEntrega from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
                    inner join Articulos on Articulos.idArticulo = Gestion.idArticulo where Empleado.idEmpleado = %d
@@ -160,7 +216,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 rs = ps.executeQuery();
-                System.out.println("Consulta" + sQuery);
+//                System.out.println("Consulta" + sQuery);
                 this.dtmCategoria.setRowCount(0);
                 while (rs.next()) {
                     this.dtmCategoria.addRow(new Object[]{
@@ -168,15 +224,90 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                         rs.getString("nombre"),
                         rs.getString("apellidoPaterno"),
                         rs.getString("apellidoMaterno"),
+                        rs.getString("nombreA"),
                         rs.getString("descrip"),
                         rs.getString("marca"),
                         rs.getString("modelo"),
                         rs.getString("numSerie"),
                         rs.getString("fechaEntrega")
-                        
+
                     });
                 }
             } catch (SQLException e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void loadCategorias() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sQuery = "SELECT idCategoria,nombreCategoria FROM Categoria";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    this.dcbmCategoria.addElement(
+                            new ComboItems(Integer.toString(
+                                    rs.getInt("idCategoria")), rs.getString("nombreCategoria")));
+                }
+                
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void loadArticulos(int id) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sQuery = "";
+        System.out.println("recibo "+id);
+        if (id <= 0) {
+            sQuery = "select idArticulo, nombreA  from Articulos";
+        } else {
+            sQuery = String.format("select idArticulo, nombreA  from Articulos where idCategoria = %d", id);
+        }
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+                
+                this.dcbmArticulos.removeAllElements();
+                
+                while (rs.next()) {
+                    this.dcbmArticulos.addElement(new ComboItems(Integer.toString(rs.getInt("idArticulo")), rs.getString("nombreA")));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+    }
+    
+    void agregar(){
+        String sQuery = "insert into Gestion (idEmpleado,idArticulo,fechaEntrega) values(?,?,?)";
+        ComboItems oArt = (ComboItems) this.jcbArticulos.getSelectedItem();
+        int idArticulos= 0;
+        
+        if (this.jcbArticulos.getSelectedItem() != null) {
+            idArticulos = Integer.parseInt(oArt.getKey());
+        }
+                   
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery,
+                        ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setInt(1, this.idEmpleado);
+                ps.setInt(2, idArticulos);
+                ps.setString(3, jtfFecha.getText());
+                ps.execute();
+                loadDatos(this.idEmpleado);
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
@@ -187,5 +318,5 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         String date = simpleDateFormat.format(new Date());
         return date;
     }
-        
+
 }
