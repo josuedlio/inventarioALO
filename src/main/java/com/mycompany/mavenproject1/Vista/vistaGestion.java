@@ -14,6 +14,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import javax.swing.JOptionPane;
 
 public class vistaGestion extends javax.swing.JInternalFrame {
 
@@ -24,7 +29,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     DefaultTableModel dtmCategoria;
     DefaultComboBoxModel dcbmCategoria;
     DefaultComboBoxModel dcbmArticulos;
-    int idEmpleado, idCategoria;
+    int idEmpleado;
 
     public vistaGestion(vistaPrincipal padre) {
         initComponents();
@@ -50,7 +55,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         this.loadArticulos(0);
         loadDatos(idEmpleado);
         System.out.println("Empleado" + idEmpleado);
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +73,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jtfFecha = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        btnPdf = new javax.swing.JButton();
         jpCentro = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtGestion = new javax.swing.JTable();
@@ -124,6 +130,14 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         });
         jPanel3.add(jButton1);
 
+        btnPdf.setText("Generar reporte");
+        btnPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnPdf);
+
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
         jpCentro.setLayout(new java.awt.BorderLayout());
@@ -157,13 +171,13 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jcbArticulosCaretPositionChanged
 
     private void jcmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmbCategoriaActionPerformed
-        
+
         ComboItems oCategoria = (ComboItems) this.jcmbCategoria.getSelectedItem();
-        
-        if( this.jcmbCategoria.getSelectedItem() != null ){
+
+        if (this.jcmbCategoria.getSelectedItem() != null) {
             this.loadArticulos(Integer.parseInt(oCategoria.getKey()));
         }
-        
+
     }//GEN-LAST:event_jcmbCategoriaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -171,9 +185,14 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         agregar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
+     crearreporte();
+    }//GEN-LAST:event_btnPdfActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnPdf;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -253,7 +272,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                             new ComboItems(Integer.toString(
                                     rs.getInt("idCategoria")), rs.getString("nombreCategoria")));
                 }
-                
+
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -264,7 +283,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sQuery = "";
-        System.out.println("recibo "+id);
+        System.out.println("recibo " + id);
         if (id <= 0) {
             sQuery = "select idArticulo, nombreA  from Articulos";
         } else {
@@ -275,9 +294,9 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 rs = ps.executeQuery();
-                
+
                 this.dcbmArticulos.removeAllElements();
-                
+
                 while (rs.next()) {
                     this.dcbmArticulos.addElement(new ComboItems(Integer.toString(rs.getInt("idArticulo")), rs.getString("nombreA")));
                 }
@@ -287,16 +306,16 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         }
 
     }
-    
-    void agregar(){
+
+    void agregar() {
         String sQuery = "insert into Gestion (idEmpleado,idArticulo,fechaEntrega) values(?,?,?)";
         ComboItems oArt = (ComboItems) this.jcbArticulos.getSelectedItem();
-        int idArticulos= 0;
-        
+        int idArticulos = 0;
+
         if (this.jcbArticulos.getSelectedItem() != null) {
             idArticulos = Integer.parseInt(oArt.getKey());
         }
-                   
+
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery,
@@ -317,6 +336,65 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String date = simpleDateFormat.format(new Date());
         return date;
+    }
+
+    private void crearreporte() {
+           Document doc = new Document();
+        try {
+            String ruta = System.getProperty("user.home"); //Toma la raiz
+            PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Documents/ReporteALO.pdf"));
+            doc.open(); //Abrio el documento pdf
+            PdfPTable tabla = new PdfPTable(10);
+            
+            tabla.addCell("ID");
+            tabla.addCell("Nombre");
+            tabla.addCell("apellidoPaterno");
+            tabla.addCell("apellidoMaterno");
+            tabla.addCell("nombreA");
+            tabla.addCell("descrip");
+            tabla.addCell("marca");
+            tabla.addCell("modelo");
+            tabla.addCell("numSerie");
+            tabla.addCell("fechaEntrega");
+            tabla.isExtendLastRow(true);
+            if (this.padre.db.conn != null) {
+                try {
+                    String sQuery = """
+                        select Empleado.idEmpleado as idEmpleado, Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno,
+                        Empleado.apellidoMaterno as apellidoMaterno,  Articulos.nombreA as nombreA,Articulos.descrip as descrip,
+                        Articulos.marca as marca, Articulos.modelo as modelo, Articulos.numSerie as numserie,
+                        Gestion.fechaEntrega from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado 
+                        inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
+                        """;
+                    ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+                    rs = ps.executeQuery();
+                    if (rs.next()) {
+                        do {                            
+                            tabla.addCell(rs.getString(1));
+                            tabla.addCell(rs.getString(2));
+                            tabla.addCell(rs.getString(3));
+                            tabla.addCell(rs.getString(4));
+                            tabla.addCell(rs.getString(5));
+                            tabla.addCell(rs.getString(6));
+                            tabla.addCell(rs.getString(7));
+                            tabla.addCell(rs.getString(8));
+                            tabla.addCell(rs.getString(9));
+                            tabla.addCell(rs.getString(10));
+                        } while (rs.next());
+                        
+                        doc.add(tabla);
+                    }
+                        
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            doc.close();
+            JOptionPane.showMessageDialog(this, "Reporte Creado");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Reporte en uso", "Error",JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }

@@ -6,22 +6,19 @@ import java.awt.Dimension;
 public class vistaPrincipal extends javax.swing.JFrame {
 
     public ConexionSQL db;
-    
-    
+
     public vistaPrincipal() {
         initComponents();
         this.conectar();
     }
-    
-    private void conectar(){
+
+    private void conectar() {
         this.db = new ConexionSQL();
         this.db.connectDB();
     }
-    
+
     vistaGestion vg;
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -32,11 +29,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
         escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmPersonal = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jmiDepartamento = new javax.swing.JMenuItem();
         jmiEmpleados = new javax.swing.JMenuItem();
         jmArticulos = new javax.swing.JMenu();
-        jmiverArticulos = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -65,6 +63,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jMenuItem5.setText("Zonas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jmPersonal.add(jMenuItem5);
+
         jmiDepartamento.setText("Departamento");
         jmiDepartamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,14 +91,6 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
         jmArticulos.setText("Articulos");
 
-        jmiverArticulos.setText("Ver Articulos");
-        jmiverArticulos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiverArticulosActionPerformed(evt);
-            }
-        });
-        jmArticulos.add(jmiverArticulos);
-
         jMenuItem1.setText("Categorias");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +98,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
         jmArticulos.add(jMenuItem1);
+
+        jMenuItem4.setText("Ver Articulos");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jmArticulos.add(jMenuItem4);
 
         jMenuBar1.add(jmArticulos);
 
@@ -115,7 +121,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem3.setText("Prueba");
+        jMenuItem3.setText("Ver Gestión");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -143,16 +149,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
 
     private void jmiEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEmpleadosActionPerformed
         System.out.println("Empleados");
-        vistaEmpleados ve = new vistaEmpleados(this, true);
-        ve.setVisible(true);
+//        vistaEmpleados ve = new vistaEmpleados(this, true);
+//        ve.setVisible(true);
+    vistaEmpleadoB ve = new vistaEmpleadoB(this);
+    escritorio.add(ve);
+    ve.show();
     }//GEN-LAST:event_jmiEmpleadosActionPerformed
-
-    private void jmiverArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiverArticulosActionPerformed
-        System.out.println("Ver Articulos");
-        vistaArticulos va = new vistaArticulos(this, true);
-        va.setVisible(true);
-        
-    }//GEN-LAST:event_jmiverArticulosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
@@ -161,22 +163,28 @@ public class vistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-
-        
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-       
-        
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-         // TODO add your handling code here:
         vistaGestion vg = new vistaGestion(this);
         escritorio.add(vg);
         vg.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        vistaArticulosB p = new vistaArticulosB(this);
+        escritorio.add(p);
+        p.show();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        System.out.println("Zonas");
+        vistaZona vz = new vistaZona(this, true);
+        vz.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane escritorio;
@@ -185,11 +193,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenu jmArticulos;
     private javax.swing.JMenu jmPersonal;
     private javax.swing.JMenuItem jmiDepartamento;
     private javax.swing.JMenuItem jmiEmpleados;
-    private javax.swing.JMenuItem jmiverArticulos;
     private javax.swing.JPanel jpCentro;
     private javax.swing.JPanel jpPrincipal;
     // End of variables declaration//GEN-END:variables

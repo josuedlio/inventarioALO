@@ -204,7 +204,7 @@ public class vistaEmpleados extends javax.swing.JDialog {
         try {
             this.rs.absolute(this.jTable1.getSelectedRow() + 1);
             this.id = this.rs.getInt("id");
-            this.nombreEmpleado = this.rs.getString("nombre");
+            this.nombreEmpleado = this.rs.getString("nombreEmpleado");
             this.apellidoP = this.rs.getString("apellidoPaterno");
             this.apellidoM = this.rs.getString("apellidoMaterno");
             this.estatus = this.rs.getString("estatus");
@@ -212,6 +212,7 @@ public class vistaEmpleados extends javax.swing.JDialog {
             jtfNombre.setText(this.nombreEmpleado);
             jtfApellidoP.setText(this.apellidoP);
             jtfapellidoMaterno.setText(this.apellidoM);
+            
             System.out.println(id);
         } catch (Exception e) {
         }

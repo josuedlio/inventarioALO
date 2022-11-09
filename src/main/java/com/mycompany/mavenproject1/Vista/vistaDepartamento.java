@@ -81,6 +81,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
         jPanel2.add(btnAgregar);
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.setEnabled(false);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -89,6 +90,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
         jPanel2.add(btnActualizar);
 
         btnBorrar.setText("Borrar");
+        btnBorrar.setEnabled(false);
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
@@ -150,7 +152,6 @@ public class vistaDepartamento extends javax.swing.JDialog {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         if (jtfDepartamento.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Campo vacio", "Error", JOptionPane.ERROR_MESSAGE);
-
         } else {
             actualizarDatos(this.id);
             loadDatos();
@@ -187,6 +188,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setString(1, jtfDepartamento.getText().toUpperCase());
                 ps.execute(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                loadDatos();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Ya existe el departamento", "Error", JOptionPane.ERROR_MESSAGE);
             }
