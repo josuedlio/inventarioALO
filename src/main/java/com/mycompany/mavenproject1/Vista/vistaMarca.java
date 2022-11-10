@@ -6,6 +6,10 @@ package com.mycompany.mavenproject1.Vista;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,14 +19,22 @@ import javax.swing.table.DefaultTableModel;
 public class vistaMarca extends javax.swing.JDialog {
 
     vistaPrincipal padre;
-     DefaultTableModel dtmMarca;
+    DefaultTableModel dtmMarca;
     PreparedStatement ps;
     ResultSet rs;
-    
+
     public vistaMarca(vistaPrincipal padre, boolean modal) {
         super(padre, modal);
         this.padre = padre;
         initComponents();
+        setTitle("Marcas");
+        Border borde = new TitledBorder("Nombre Marca");
+        jtfMarca.setBorder(borde);
+        jtfMarca.setColumns(10);
+
+        this.dtmMarca = (DefaultTableModel) this.TablaMarca.getModel();
+
+        loadDatos();
     }
 
     /**
@@ -84,7 +96,12 @@ public class vistaMarca extends javax.swing.JDialog {
     }//GEN-LAST:event_jtfMarcaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //agregar();
+        if (jtfMarca.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Campo vacio", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            agregar();
+            jtfMarca.setText("");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
@@ -96,4 +113,41 @@ public class vistaMarca extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jtfMarca;
     // End of variables declaration//GEN-END:variables
+
+    private void loadDatos() {
+        String sQuery = "select idMarca, nombreMarca from Marca";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+
+                this.dtmMarca.setRowCount(0);
+                while (rs.next()) {
+                    this.dtmMarca.addRow(new Object[]{
+                        rs.getString("idMarca"),
+                        rs.getString("nombreMarca")
+                    });
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+    }
+
+    private void agregar() {
+        String sQuery = "insert into Marca (nombreMarca) values (?)";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setString(1, jtfMarca.getText().toUpperCase());
+                ps.execute(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                loadDatos();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Tienes un error", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }

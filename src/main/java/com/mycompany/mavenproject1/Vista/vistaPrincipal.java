@@ -33,6 +33,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jmiDepartamento = new javax.swing.JMenuItem();
         jmiEmpleados = new javax.swing.JMenuItem();
         jmArticulos = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -90,6 +91,14 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jmPersonal);
 
         jmArticulos.setText("Articulos");
+
+        jMenuItem6.setText("Marcas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jmArticulos.add(jMenuItem6);
 
         jMenuItem1.setText("Categorias");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +195,12 @@ public class vistaPrincipal extends javax.swing.JFrame {
         vz.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        vistaMarca vma = new vistaMarca(this, true);
+        vma.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jMenu1;
@@ -195,6 +210,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu jmArticulos;
     private javax.swing.JMenu jmPersonal;
     private javax.swing.JMenuItem jmiDepartamento;

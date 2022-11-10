@@ -79,14 +79,18 @@ constraint fk_marca foreign key (idMarca) references Marca(idMarca)
 insert into Categoria (nombreCategoria) values ('TI')
 insert into Categoria (nombreCategoria) values ('Oficina')
 
+
 insert into Marca (nombreMarca) values ('Microsoft')
 insert into Marca (nombreMarca) values ('DELL')
 insert into Marca (nombreMarca) values ('LENOVO')
 
 insert into Articulos (nombreA,descrip,modelo,capacidad,identificador,folio,idCategoria,idMarca)
+
 			values ('LAPTOP','ICORE7 4 NUCLEOS','LHNN943','1TB','874JKSJYA7','44ABA3',1,3)
 insert into Articulos (nombreA,descrip,modelo,capacidad,identificador,folio,idCategoria,idMarca)
 			values ('MONITOR','HD SIN MARCO 4K','ABC943',' ','874JKSJYA7','44ABA3',1,2)
+			insert into Articulos (nombreA,descrip,modelo,capacidad,identificador,folio,idCategoria,idMarca)
+			values ('MONITOR','HD SIN MARCO 4K','ABC943',' ','874JKSJYA7','44ABA3',3,2)
 
 
 -----------////Mostrar en JAVA
@@ -117,8 +121,7 @@ idGestion int identity(1,1) primary key,
 idEmpleado int not null,
 idArticulo int not null,
 motivo varchar(200),
-cantidad int,
-responsable varchar(70),
+cantidad varchar(11),
 fechaEntrega varchar(12),
 constraint fk_empleadoG foreign key (idEmpleado) references Empleado(idEmpleado),
 constraint fk_articuloG foreign key (idArticulo) references Articulos(idArticulo)
@@ -126,14 +129,18 @@ constraint fk_articuloG foreign key (idArticulo) references Articulos(idArticulo
 
 
 
-insert into Gestion (idEmpleado,idArticulo,motivo,cantidad,responsable,fechaEntrega) 
-				values (1,1,'nuevo equipo',1,'Fulano','20/09/2022')
+insert into Gestion (idEmpleado,idArticulo,motivo,cantidad,fechaEntrega) 
+				values (1,1,'nuevo equipo',1,'20/09/2022')
 ----JAVA----
-select Empleado.nombre as nombre,Empleado.apellidoPaterno as aplleidoPaterno, Articulos.nombreA as nombreA,
-Articulos.identificador as identificador, cantidad, motivo, fechaEntrega 
+select Empleado.nombre as nombre,Empleado.apellidoPaterno as aplleidoPaterno,Empleado.apellidoMaterno as apellidoM, Articulos.nombreA as nombreA,Articulos.descrip as descrip,
+Articulos.identificador as identificador, Gestion.motivo as motivo, Gestion.fechaEntrega as fechaEntrega 
 from Gestion 
-inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
+inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Articulos on Articulos.idArticulo = Gestion.idArticulo where Empleado.idEmpleado = '2'
 
+select Empleado.nombre as Nombre, Empleado.apellidoPaterno as ApellidoPaterno, Departamento.nombreDepartamento as Departamento, Articulos.nombreA as Articulo,Articulos.descrip as Descripcion,Articulos.identificador as Identificador,
+Gestion.cantidad as Cantidad, Gestion.fechaEntrega as Fecha from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
+inner join Articulos on Articulos.idArticulo = Gestion.idArticulo where Empleado.idEmpleado = '6' 
+ 
 
 
 --delete from Departamento where idDepartamento = 6
@@ -159,3 +166,5 @@ drop table Zona
 drop table Categoria
 drop table Marca 
 drop table Entrada
+
+

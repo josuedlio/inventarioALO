@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -20,40 +21,41 @@ import javax.swing.table.DefaultTableModel;
  * @author infraver
  */
 public class vistaArticulosB extends javax.swing.JInternalFrame {
-    
+
     vistaPrincipal padre;
     PreparedStatement ps;
     ResultSet rs;
-    
+
     DefaultComboBoxModel dcbmBuscarCategoria;
     DefaultTableModel dtmTablaBuscar;
-    
+
     DefaultTableModel dtmTablaArticulos;
     DefaultComboBoxModel dcbmAgregarCategoria;
+    DefaultComboBoxModel dcbmMarca;
     int id;
-    
-  
+
     public vistaArticulosB(vistaPrincipal padre) {
         initComponents();
         this.padre = padre;
         setTitle("Catalogo Articulos");
-        
+
         Border bordeC = new TitledBorder("Categoria");
         jcbBuscarCategoria.setBorder(bordeC);
         jcbAgregarCategoria.setBorder(bordeC);
-        
+
         this.dcbmBuscarCategoria = (DefaultComboBoxModel) this.jcbBuscarCategoria.getModel();
         this.dtmTablaBuscar = (DefaultTableModel) this.jtBuscarArticulos.getModel();
-        
+
         this.dtmTablaArticulos = (DefaultTableModel) this.jtArticulos.getModel();
         this.dcbmAgregarCategoria = (DefaultComboBoxModel) this.jcbAgregarCategoria.getModel();
-        
+        this.dcbmMarca = (DefaultComboBoxModel) this.jcbAgregarMarca.getModel();
+
         Border bordeN = new TitledBorder("Nombre Articulo");
         jtfNombreA.setBorder(bordeN);
         Border borderD = new TitledBorder("Descripción");
         jtfDescripcion.setBorder(borderD);
         Border borderMa = new TitledBorder("Marca");
-        jtfMarca.setBorder(borderMa);
+        jcbAgregarMarca.setBorder(borderMa);
         Border borderMo = new TitledBorder("Modelo");
         jtfModelo.setBorder(borderMo);
         Border borderAl = new TitledBorder("Almacenamiento");
@@ -62,18 +64,15 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
         jtfFolio.setBorder(borderFo);
         Border borderNu = new TitledBorder("No.Serie");
         jtfNumSerie.setBorder(borderNu);
-        
-        
-        
+
         loadCategorias();
         loadCategoriasA();
         loadArticulos(id);
         loadDatos();
-        
+        loadMarca();
+
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -95,12 +94,12 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
         jtfNombreA = new javax.swing.JTextField();
         jtfDescripcion = new javax.swing.JTextField();
         jtfModelo = new javax.swing.JTextField();
-        jtfMarca = new javax.swing.JTextField();
         jtfNumSerie = new javax.swing.JTextField();
         jtfAlmacenamiento = new javax.swing.JTextField();
         jtfFolio = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         jcbAgregarCategoria = new javax.swing.JComboBox<>();
+        jcbAgregarMarca = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -139,7 +138,7 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre", "Descripcion", "Modelo", "Marca", "NumSerie", "Folio", "Departamento"
+                "ID", "Nombre", "Descripcion", "Modelo", "Capacidad", "Identificador", "Folio", "Categoria", "Marca"
             }
         ));
         jScrollPane2.setViewportView(jtBuscarArticulos);
@@ -157,7 +156,7 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Descripcion", "Modelo", "Marca", "Folio"
+                "ID", "Nombre", "Descripcion", "Modelo", "Identificador", "Folio"
             }
         ));
         jScrollPane1.setViewportView(jtArticulos);
@@ -180,13 +179,13 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jtfNombreA)
-                    .addComponent(jtfDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                    .addComponent(jtfModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                    .addComponent(jtfMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                    .addComponent(jtfNumSerie, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                    .addComponent(jtfDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                    .addComponent(jtfModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                    .addComponent(jtfNumSerie, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                     .addComponent(jcbAgregarCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtfAlmacenamiento, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-                    .addComponent(jtfFolio))
+                    .addComponent(jtfAlmacenamiento, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                    .addComponent(jtfFolio)
+                    .addComponent(jcbAgregarMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -198,19 +197,19 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
                 .addComponent(jtfDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jtfModelo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jtfMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
+                .addComponent(jtfFolio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(jtfNumSerie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jtfAlmacenamiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jtfFolio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
                 .addComponent(jcbAgregarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
+                .addComponent(jcbAgregarMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         jpAgregar.add(jPanel2);
@@ -234,10 +233,18 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         int reset = 0;
         this.loadArticulos(reset);
+        this.loadCategorias();
+        this.loadCategoriasA();
+        this.loadMarca();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        agregarDatos();
+        if (jtfNombreA.getText().isBlank() || jtfDescripcion.getText().isEmpty() || jtfModelo.getText().isEmpty()
+                || jtfAlmacenamiento.getText().isEmpty() || jtfFolio.getText().isEmpty() || jtfNumSerie.getText().isEmpty()) {
+JOptionPane.showMessageDialog(this, "Campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            agregarDatos();
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
 
@@ -252,6 +259,7 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox<String> jcbAgregarCategoria;
+    private javax.swing.JComboBox<String> jcbAgregarMarca;
     private javax.swing.JComboBox<String> jcbBuscarCategoria;
     private javax.swing.JPanel jpAgregar;
     private javax.swing.JTable jtArticulos;
@@ -259,7 +267,6 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfAlmacenamiento;
     private javax.swing.JTextField jtfDescripcion;
     private javax.swing.JTextField jtfFolio;
-    private javax.swing.JTextField jtfMarca;
     private javax.swing.JTextField jtfModelo;
     private javax.swing.JTextField jtfNombreA;
     private javax.swing.JTextField jtfNumSerie;
@@ -267,52 +274,54 @@ public class vistaArticulosB extends javax.swing.JInternalFrame {
     private javax.swing.JPanel verArticulos;
     // End of variables declaration//GEN-END:variables
 
+    void loadArticulos(int id) {
+        System.out.println("Hola: " + id);
+        String sQuery = "";
 
-void loadArticulos(int id){
-    System.out.println("Hola: "+id);
-    String sQuery = "";
-    
-    if (id <=0) {
-        sQuery="""
-               select Articulos.nombreA as nombreA,Articulos.descrip AS descripcion, Articulos.modelo AS modelo, Articulos.marca AS marca,
-               Articulos.almacenamiento as almacenamiento,
-               Articulos.numSerie AS numSerie, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreTipo
+        if (id <= 0) {
+            sQuery = """
+               select Articulos.idArticulo as id,Articulos.nombreA as nombreA,Articulos.descrip AS descripcion, Articulos.modelo AS modelo,
+               Articulos.capacidad as capacidad,
+               Articulos.identificador AS identificador, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreCategoria, Marca.nombreMarca as marca
                from Articulos inner join
-               Categoria on Categoria.idCategoria = Articulos.idCategoria
+               Categoria on Categoria.idCategoria = Articulos.idCategoria inner join Marca on Marca.idMarca = Articulos.idMarca
                """;
-    }else{
-        sQuery= String.format("""
-                select Articulos.nombreA as nombreA,Articulos.descrip AS descripcion, Articulos.modelo AS modelo, Articulos.marca AS marca,
-                Articulos.almacenamiento as almacenamiento,
-                Articulos.numSerie AS numSerie, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreTipo
-                from Articulos inner join
-                Categoria on Categoria.idCategoria = Articulos.idCategoria where Articulos.idCategoria = %d
-                              """,id);
-    }
-    
-    if (this.padre.db.conn != null) {
-        try {
-            ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+        } else {
+            sQuery = String.format("""
+                select Articulos.idArticulo as id,Articulos.nombreA as nombreA,Articulos.descrip AS descripcion, Articulos.modelo AS modelo,
+                               Articulos.capacidad as capacidad,
+                               Articulos.identificador AS identificador, Articulos.folio AS folio,Categoria.nombreCategoria AS nombreCategoria, Marca.nombreMarca as marca
+                               from Articulos inner join
+                               Categoria on Categoria.idCategoria = Articulos.idCategoria inner join Marca on Marca.idMarca = Articulos.idMarca where Articulos.idCategoria = %d
+                              """, id);
+        }
+
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 rs = ps.executeQuery();
                 this.dtmTablaBuscar.setRowCount(0);
-                while(rs.next()){
+                while (rs.next()) {
                     this.dtmTablaBuscar.addRow(new Object[]{
-                    rs.getString("nombreA"),
+                        rs.getString("id"),
+                        rs.getString("nombreA"),
                         rs.getString("descripcion"),
                         rs.getString("modelo"),
-                        rs.getString("marca"),
-                        rs.getString("numSerie"),
+                        rs.getString("capacidad"),
+                        rs.getString("identificador"),
                         rs.getString("folio"),
-                        rs.getString("nombreTipo")
+                        rs.getString("nombreCategoria"),
+                        rs.getString("marca")
                     });
                 }
-        } catch (Exception e) {System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
-}
 
-private void loadCategorias() {
+    private void loadCategorias() {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sQuery = "SELECT idCategoria,nombreCategoria FROM Categoria";
@@ -325,7 +334,7 @@ private void loadCategorias() {
                     this.dcbmBuscarCategoria.addElement(
                             new ComboItems(Integer.toString(
                                     rs.getInt("idCategoria")), rs.getString("nombreCategoria")));
-                }   
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -333,12 +342,11 @@ private void loadCategorias() {
     }
 
     private void loadDatos() {
-       String sQuery = "select idArticulo,nombreA,descrip,modelo,marca,folio from Articulos ";
+        String sQuery = "select idArticulo,nombreA,descrip,modelo,identificador,folio from Articulos ";
         if (this.padre.db.conn != null) {
             try {
-                ps = this.padre.db.conn.prepareStatement(sQuery,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 rs = ps.executeQuery();
-                
                 this.dtmTablaArticulos.setRowCount(0);
                 while (rs.next()) {
                     this.dtmTablaArticulos.addRow(new Object[]{
@@ -346,15 +354,16 @@ private void loadCategorias() {
                         rs.getString("nombreA"),
                         rs.getString("descrip"),
                         rs.getString("modelo"),
-                        rs.getString("marca"),
+                        rs.getString("identificador"),
                         rs.getString("folio")
-                    });        
+                    });
                 }
-            } catch (Exception e) { System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }
-    
+
     private void loadCategoriasA() {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -368,15 +377,35 @@ private void loadCategorias() {
                     this.dcbmAgregarCategoria.addElement(
                             new ComboItems(Integer.toString(
                                     rs.getInt("idCategoria")), rs.getString("nombreCategoria")));
-                }     
+                }
             } catch (Exception e) {
                 System.out.println(e);
             }
         }
     }
-    
-        private void agregarDatos() {
-        String sQuery = "INSERT INTO Articulos (nombreA,descrip,modelo,marca,almacenamiento,numSerie,folio,idCategoria)   "
+
+    void loadMarca() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sQuery = "SELECT idMarca,nombreMarca FROM Marca";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    this.dcbmMarca.addElement(
+                            new ComboItems(Integer.toString(
+                                    rs.getInt("idMarca")), rs.getString("nombreMarca")));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void agregarDatos() {
+        String sQuery = " insert into Articulos (nombreA,descrip,modelo,capacidad,identificador,folio,idCategoria,idMarca)  "
                 + "VALUES(?,?,?,?,?,?,?,?)";
         ComboItems oTipoAs = (ComboItems) this.jcbAgregarCategoria.getSelectedItem();
         int idTipo = 0;
@@ -385,18 +414,24 @@ private void loadCategorias() {
             idTipo = Integer.parseInt(oTipoAs.getKey());
         }
 
+        ComboItems oMarca = (ComboItems) this.jcbAgregarMarca.getSelectedItem();
+        int idMarca = 0;
+        if (this.jcbAgregarMarca.getSelectedItem() != null) {
+            idMarca = Integer.parseInt(oMarca.getKey());
+        }
+
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-               ps.setString(1, jtfNombreA.getText().toUpperCase());
-               ps.setString(2, jtfDescripcion.getText().toUpperCase());
-               ps.setString(3, jtfModelo.getText().toUpperCase());
-               ps.setString(4, jtfMarca.getText().toUpperCase());
-               ps.setString(5, jtfAlmacenamiento.getText().toUpperCase());
-               ps.setString(6, jtfNumSerie.getText().toUpperCase());
-               ps.setString(7, jtfFolio.getText().toUpperCase());
-               ps.setInt(8, idTipo);
+                ps.setString(1, jtfNombreA.getText().toUpperCase());
+                ps.setString(2, jtfDescripcion.getText().toUpperCase());
+                ps.setString(3, jtfModelo.getText().toUpperCase());
+                ps.setString(4, jtfAlmacenamiento.getText().toUpperCase());
+                ps.setString(5, jtfNumSerie.getText().toUpperCase());
+                ps.setString(6, jtfFolio.getText().toUpperCase());
+                ps.setInt(7, idTipo);
+                ps.setInt(8, idMarca);
                 ps.execute();
                 loadDatos();
                 limpiarcampos();
@@ -409,11 +444,10 @@ private void loadCategorias() {
     private void limpiarcampos() {
         jtfDescripcion.setText("");
         jtfModelo.setText("");
-        jtfMarca.setText("");
         jtfAlmacenamiento.setText("");
         jtfNumSerie.setText("");
         jtfNombreA.setText("");
         jtfFolio.setText("");
     }
-    
+
 }
