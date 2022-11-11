@@ -13,6 +13,11 @@ nombreZona varchar(50) UNIQUE,
 sigla char(3)
 )
 
+create table Puesto(
+idPuesto int identity(1,1) primary key not null,
+nombrePuesto varchar(50) UNIQUE,
+)
+
 create table Empleado(
 idEmpleado int identity(1,1) primary key not null,
 nombre varchar(100),
@@ -22,8 +27,10 @@ estatus varchar(8),
 fechaAlta varchar(12),
 fechaBaja varchar(12),
 idDepartamento int not null,
+idPuesto int not null,
 idZona int not null,
 constraint fk_departamento foreign key (idDepartamento) references Departamento(idDepartamento),
+constraint fk_puestos foreign key (idPuesto) references Puesto(idPuesto),
 constraint fk_zona foreign key (idZona) references Zona(idZona)
 )
 
@@ -31,17 +38,20 @@ constraint fk_zona foreign key (idZona) references Zona(idZona)
 insert into Departamento (nombreDepartamento) values ('TI')
 insert into Departamento (nombreDepartamento) values ('FINANZAS')
 
+insert into Puesto (nombrePuesto) values ('Pasate')
+insert into Puesto (nombrePuesto) values ('Jefe de Departamento')
+
 insert into Zona (nombreZona,sigla) values ('VERACRUZ','VER')
 insert into Zona (nombreZona,sigla) values ('PUEBLA','PUE')
 insert into Zona (nombreZona,sigla) values ('QUERETARO','QRO')
 
-insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,estatus,fechaAlta,fechaBaja,idDepartamento,idZona)
-			values   ('El','Ma','caco ','Activo','02/11/2022','.',2,3)
+insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,estatus,fechaAlta,fechaBaja,idDepartamento,idPuesto,idZona)
+			values   ('El','Ma','caco ','Activo','02/11/2022','.',2,2,3)
 
 ------/////////////////Para mostrar en JAVA
 select Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
-Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento ,Zona.nombreZona as nombreZona
-from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona 
+Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
+from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto
 where Empleado.idDepartamento = '2'
 where Empleado.idZona = '3'
 
@@ -145,6 +155,9 @@ inner join Articulos on Articulos.idArticulo = Gestion.idArticulo where Empleado
 
 --delete from Departamento where idDepartamento = 6
 
+select Empleado.nombre AS nombre, Departamento.nombreDepartamento AS departamento, Puesto.nombrePuesto AS puesto,Articulos.nombreA AS articulo, Articulos.identificador AS identificador,
+Gestion.cantidad AS cantidad, Gestion.fechaEntrega AS fecha from Gestion inner join Empleado ON Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
+inner join Puesto on Puesto.idPuesto = Empleado.idPuesto inner join Articulos on Articulos.idArticulo = Gestion.idArticulo 
 
 
 ----------------
@@ -156,6 +169,7 @@ select * from Categoria
 select * from Marca ORDER BY idMarca
 select * from Gestion
 select * from Entrada
+select * from Puesto
 
 -----------------
 drop table Gestion
@@ -163,6 +177,7 @@ drop table Empleado
 drop table Articulos
 drop table Departamento
 drop table Zona
+drop table Puesto
 drop table Categoria
 drop table Marca 
 drop table Entrada

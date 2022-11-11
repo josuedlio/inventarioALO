@@ -72,7 +72,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnBuscar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Buscar"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagenes/seo-social-web-network-internet_340_icon-icons.com_61497 (1).png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
@@ -100,7 +102,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -108,7 +112,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnPdf">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generar reporte"/>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\infraver\OneDrive - AUTOMOTIVE LOGISTICS S.C\Desktop\Nueva carpeta\mavenproject1\src\main\resources\imagenes\editdocument_105148.png"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPdfActionPerformed"/>
@@ -119,7 +125,7 @@
             <Component class="javax.swing.JButton" name="jButton2">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="C:\Users\infraver\OneDrive - AUTOMOTIVE LOGISTICS S.C\Desktop\Nueva carpeta\mavenproject1\src\main\java\imagenes\btnreset.png"/>
+                  <Image iconType="3" name="/imagenes/btnreset.png"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="4"/>
               </Properties>
@@ -158,9 +164,9 @@
                         <Column editable="true" title="Apellido P" type="java.lang.Object"/>
                         <Column editable="true" title="Apellido M" type="java.lang.Object"/>
                         <Column editable="true" title="Articulo" type="java.lang.Object"/>
+                        <Column editable="true" title="Modelo" type="java.lang.Object"/>
                         <Column editable="true" title="Motivo" type="java.lang.Object"/>
                         <Column editable="true" title="Cantidad" type="java.lang.Object"/>
-                        <Column editable="true" title="Identificador" type="java.lang.Object"/>
                         <Column editable="true" title="Fecha Entrega" type="java.lang.Object"/>
                       </Table>
                     </Property>

@@ -11,6 +11,9 @@
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameIconified" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameIconified"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -132,18 +135,24 @@
                         <Component class="javax.swing.JTable" name="jTablaBuscarE">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="7" rowCount="0">
+                              <Table columnCount="8" rowCount="0">
                                 <Column editable="true" title="Nombre" type="java.lang.Object"/>
                                 <Column editable="true" title="Apellido P" type="java.lang.Object"/>
                                 <Column editable="true" title="Apellido M" type="java.lang.Object"/>
                                 <Column editable="true" title="Estatus" type="java.lang.Object"/>
                                 <Column editable="true" title="Alta" type="java.lang.Object"/>
                                 <Column editable="true" title="Departamento" type="java.lang.Object"/>
+                                <Column editable="true" title="Puesto" type="java.lang.Object"/>
                                 <Column editable="true" title="Zona" type="java.lang.Object"/>
                               </Table>
                             </Property>
                             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                               <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                   <Title/>
                                   <Editor/>
@@ -216,7 +225,7 @@
                     <Component class="javax.swing.JTable" name="jTablaAgregar">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="9" rowCount="0">
+                          <Table columnCount="10" rowCount="0">
                             <Column editable="true" title="ID" type="java.lang.Object"/>
                             <Column editable="true" title="Nombre" type="java.lang.Object"/>
                             <Column editable="true" title="Apellido" type="java.lang.Object"/>
@@ -225,11 +234,17 @@
                             <Column editable="true" title="Fecha Ingreso" type="java.lang.Object"/>
                             <Column editable="true" title="Fecha Baja" type="java.lang.Object"/>
                             <Column editable="true" title="Departamento" type="java.lang.Object"/>
+                            <Column editable="true" title="Puesto" type="java.lang.Object"/>
                             <Column editable="true" title="Zona" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -303,10 +318,12 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="cbAgregarZona" min="-2" pref="201" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnModificar" min="-2" pref="104" max="-2" attributes="0"/>
-                                      <EmptySpace pref="146" max="32767" attributes="0"/>
-                                      <Component id="btnAgregar" min="-2" pref="104" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                                      <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cbPuesto" pref="242" max="32767" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="cbAgregarDepa" min="-2" pref="200" max="-2" attributes="0"/>
                                   </Group>
@@ -337,14 +354,22 @@
                               <Component id="jtfEstatus" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cbAgregarZona" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cbAgregarDepa" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnModificar" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="cbAgregarZona" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbAgregarDepa" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnModificar" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnAgregar" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="cbPuesto" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace pref="367" max="32767" attributes="0"/>
+                              <EmptySpace pref="351" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -386,7 +411,9 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="btnModificar">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Modificar"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"/>
+                        </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
@@ -394,7 +421,9 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="btnAgregar">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Agregar"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"/>
+                        </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarActionPerformed"/>
@@ -408,6 +437,11 @@
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jToggleButton1MouseClicked"/>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="cbPuesto">
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                      </AuxValues>
                     </Component>
                   </SubComponents>
                 </Container>

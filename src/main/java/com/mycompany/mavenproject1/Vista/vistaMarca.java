@@ -62,7 +62,7 @@ public class vistaMarca extends javax.swing.JDialog {
         });
         jPanel2.add(jtfMarca);
 
-        jButton1.setText("Agregar");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

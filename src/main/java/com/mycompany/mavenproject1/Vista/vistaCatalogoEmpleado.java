@@ -68,7 +68,7 @@ public class vistaCatalogoEmpleado extends javax.swing.JDialog {
             this.padre.idEmpleado = this.rs.getInt("idEmpleado");
             this.padre.loadDatos(this.rs.getInt("idEmpleado"));
             vistaGestion.jtfEmpleado.setText(this.rs.getString("nombre")
-                    .concat(" ").concat(this.rs.getString("apellidoPaterno")));
+                    .concat(" ").concat(this.rs.getString("apellidoPaterno").concat(" ").concat(this.rs.getString("apellidoMaterno"))));
             dispose();
         } catch (SQLException e) {        System.out.println(e);}
     }//GEN-LAST:event_jTable1MouseClicked

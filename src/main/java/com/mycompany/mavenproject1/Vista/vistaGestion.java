@@ -14,6 +14,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Image;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         this.padre = padre;
         Border borde = new TitledBorder("Nombre empleado");
         jtfEmpleado.setBorder(borde);
-        jtfEmpleado.setColumns(13);
+        jtfEmpleado.setColumns(20);
         Border bordeF = new TitledBorder("Fecha de entrega");
         jtfFecha.setBorder(bordeF);
         jtfFecha.setColumns(10);
@@ -114,7 +115,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel1);
         jPanel3.add(jtfEmpleado);
 
-        btnBuscar.setText("Buscar");
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/seo-social-web-network-internet_340_icon-icons.com_61497 (1).png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -137,7 +138,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jPanel3.add(jtfCantidad);
         jPanel3.add(jtfFecha);
 
-        jButton1.setText("Agregar");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -145,7 +146,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         });
         jPanel3.add(jButton1);
 
-        btnPdf.setText("Generar reporte");
+        btnPdf.setIcon(new javax.swing.ImageIcon("C:\\Users\\infraver\\OneDrive - AUTOMOTIVE LOGISTICS S.C\\Desktop\\Nueva carpeta\\mavenproject1\\src\\main\\resources\\imagenes\\editdocument_105148.png")); // NOI18N
         btnPdf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPdfActionPerformed(evt);
@@ -154,7 +155,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jPanel3.add(btnPdf);
         jPanel3.add(jSeparator3);
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\infraver\\OneDrive - AUTOMOTIVE LOGISTICS S.C\\Desktop\\Nueva carpeta\\mavenproject1\\src\\main\\java\\imagenes\\btnreset.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnreset.png"))); // NOI18N
         jButton2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,7 +173,7 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre", "Apellido P", "Apellido M", "Articulo", "Motivo", "Cantidad", "Identificador", "Fecha Entrega"
+                "Nombre", "Apellido P", "Apellido M", "Articulo", "Modelo", "Motivo", "Cantidad", "Fecha Entrega"
             }
         ));
         jScrollPane2.setViewportView(jtGestion);
@@ -213,7 +214,12 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        agregar();
+        if (jtfMotivo.getText().isEmpty() || jtfEmpleado.getText().isEmpty() || jtfCantidad.getText().isEmpty() || jtfFecha.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            agregar();
+            limpiar();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
@@ -269,10 +275,10 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         if (idEmpleado <= 0) {
             sQuery = """
-                       select Empleado.nombre as nombre,Empleado.apellidoPaterno as apellidoPaterno,Empleado.apellidoMaterno as apellidoM ,Articulos.nombreA as nombreA,Articulos.descrip as descrip,
-                        Articulos.identificador as identificador, Gestion.motivo as motivo,Gestion.cantidad as cantidad ,Gestion.fechaEntrega as fechaEntrega 
-                        from Gestion 
-                        inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
+                       select Empleado.nombre as nombre,Empleado.apellidoPaterno as apellidoPaterno,Empleado.apellidoMaterno as apellidoM, Articulos.nombreA as nombreA,Articulos.descrip as descrip,
+                                           Articulos.identificador as identificador, Gestion.motivo as motivo,Gestion.cantidad as cantidad ,Gestion.fechaEntrega as fechaEntrega 
+                                           from Gestion 
+                                           inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
                         """;
         } else {
             sQuery = String.format("""
@@ -397,10 +403,9 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         try {
             String ruta = System.getProperty("user.home"); //Toma la raiz
             PdfWriter.getInstance(doc, new FileOutputStream(ruta + "/Documents/ReporteALO.pdf"));
+            
 
-//            Image header  = Image.getInstance(" \\src\\ima\\java\\logo.png");
-//            header.scaleToFit(300,300);
-//            header.setAlignment(Chunk.ALIGN_CENTER);
+            
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
             parrafo.add("Reporte ALO \n\n");
@@ -408,51 +413,51 @@ public class vistaGestion extends javax.swing.JInternalFrame {
             parrafo.add("Reporte de artículos entregados\n\n ");
 
             Paragraph parrafo2 = new Paragraph();
-            parrafo2.setAlignment(Paragraph.ALIGN_LEFT);
+            parrafo2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
             parrafo2.setFont(FontFactory.getFont("Arial", 15, Font.BOLD, BaseColor.BLACK));
             parrafo2.add("Responsiva \n\n");
-                        parrafo2.setFont(FontFactory.getFont("Arial", 12, Font.BOLD, BaseColor.BLACK));
+            parrafo2.setFont(FontFactory.getFont("Arial", 12, Font.BOLD, BaseColor.BLACK));
 
-            parrafo2.add("Sirva la presente como comprobante oficial de entrega del activo fijo que pertenece a Automotive Logistics, S.C.\n"
-                    + "\n"
-                    + "Recibo de conformidad con esta fecha, lo mencionado en la presente y me comprometo a usarlo única y exclusivamente para asuntos relacionados con mi actividad laboral, mantener en buen estado y notificar cualquier anomalía a Servicios Generales. En caso de extravío, daño o uso inadecuado, me responsabilizo a pagar el costo, reparación o reposición de lo correspondiente, asumiendo completamente la responsabilidad sobre el cuidado del mismo. \n"
+            parrafo2.add("Sirva la presente como comprobante oficial de entrega del activo fijo que pertenece a Automotive Logistics, S.C. para: "+jtfEmpleado.getText()+"\n"
+                    + "\n\n Recibo de conformidad con esta fecha, lo mencionado en la presente y me comprometo a usarlo única y exclusivamente para asuntos relacionados con mi actividad laboral, mantener en buen estado y notificar cualquier anomalía a Servicios Generales. En caso de extravío, daño o uso inadecuado, asumiré completamente la responsabilidad de pagar el costo, reparación o reposición del mismo. \n"
                     + "\n\n ");
-            
+
             Paragraph parrafo3 = new Paragraph();
             parrafo3.setAlignment(Paragraph.ALIGN_CENTER);
             parrafo3.setFont(FontFactory.getFont("Arial", 8, Font.BOLD, BaseColor.BLACK));
-            parrafo3.add("---------------------Nombre--firma--"+getFecha()+"----------------------------\n\n ");
-
+            parrafo3.add("Nombre___________________________________________________Puesto___________________________________Firma____________Fecha___________________\n\n ");
+            
+            Image header = Image.getInstance("src/img/logo.png");
+            header.scaleToFit(300,300);
+            header.setAlignment(Chunk.ALIGN_CENTER);
 
             doc.open(); //Abrio el documento pdf
-//            doc.add(header);
+            doc.add(header);
+            
             doc.add(parrafo);
             doc.add(parrafo2);
 
-            PdfPTable tabla = new PdfPTable(8);
-            tabla.setWidthPercentage(110);
-            tabla.addCell(new PdfPCell(new Paragraph("Nombre")));
-            tabla.addCell("ApellidoPaterno");
-            tabla.addCell("Departamento");
+            PdfPTable tabla = new PdfPTable(4);
+//            tabla.setWidthPercentage(110);
             tabla.addCell("Articulo");
-            tabla.addCell("Descripcion");
             tabla.addCell("Identificador");
             tabla.addCell("Cantidad");
-            tabla.addCell("fechaEntrega");
-            
+            tabla.addCell("FechaEntrega");
+
             tabla.isExtendLastRow(true);
 
             if (idEmpleado <= 0) {
                 sQuery = """
-                      select Empleado.nombre as Nombre, Empleado.apellidoPaterno as ApellidoPaterno, Departamento.nombreDepartamento as Departamento, Articulos.nombreA as Articulo,Articulos.descrip as Descripcion,Articulos.identificador as Identificador,
-                      Gestion.cantidad as Cantidad, Gestion.fechaEntrega as Fecha from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
-                      inner join Articulos on Articulos.idArticulo = Gestion.idArticulo
+                    select Articulos.nombreA AS articulo, Articulos.identificador AS identificador,
+                                            Gestion.cantidad AS cantidad, Gestion.fechaEntrega AS fecha from Gestion inner join Empleado ON Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
+                                            inner join Puesto on Puesto.idPuesto = Empleado.idPuesto inner join Articulos on Articulos.idArticulo = Gestion.idArticulo 
                                     """;
             } else {
                 sQuery = String.format("""
-                      select Empleado.nombre as Nombre, Empleado.apellidoPaterno as ApellidoPaterno, Departamento.nombreDepartamento as Departamento, Articulos.nombreA as Articulo,Articulos.descrip as Descripcion,Articulos.identificador as Identificador,
-                      Gestion.cantidad as Cantidad, Gestion.fechaEntrega as Fecha from Gestion inner join Empleado on Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
-                      inner join Articulos on Articulos.idArticulo = Gestion.idArticulo where Empleado.idEmpleado = %d
+                      select Articulos.nombreA AS articulo, Articulos.identificador AS identificador,
+                      Gestion.cantidad AS cantidad, Gestion.fechaEntrega AS fecha from Gestion inner join Empleado ON Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
+                      inner join Puesto on Puesto.idPuesto = Empleado.idPuesto inner join Articulos on Articulos.idArticulo = Gestion.idArticulo 
+                                       where Empleado.idEmpleado = %d
                                     """, idEmpleado);
             }
 
@@ -468,10 +473,6 @@ public class vistaGestion extends javax.swing.JInternalFrame {
                             tabla.addCell(rs.getString(2));
                             tabla.addCell(rs.getString(3));
                             tabla.addCell(rs.getString(4));
-                            tabla.addCell(rs.getString(5));
-                            tabla.addCell(rs.getString(6));
-                            tabla.addCell(rs.getString(7));
-                            tabla.addCell(rs.getString(8));
 
                         } while (rs.next());
 
@@ -496,6 +497,12 @@ public class vistaGestion extends javax.swing.JInternalFrame {
             System.out.println(e);
         }
 
+    }
+
+    private void limpiar() {
+        jtfCantidad.setText("");
+        jtfEmpleado.setText("");
+        jtfMotivo.setText("");
     }
 
 }

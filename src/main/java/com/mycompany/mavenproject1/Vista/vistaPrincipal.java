@@ -31,6 +31,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jmPersonal = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jmiDepartamento = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jmiEmpleados = new javax.swing.JMenuItem();
         jmArticulos = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -46,6 +47,18 @@ public class vistaPrincipal extends javax.swing.JFrame {
         jpPrincipal.setLayout(new java.awt.BorderLayout());
 
         jpCentro.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         jpCentro.add(escritorio, java.awt.BorderLayout.CENTER);
 
         jpPrincipal.add(jpCentro, java.awt.BorderLayout.CENTER);
@@ -72,13 +85,21 @@ public class vistaPrincipal extends javax.swing.JFrame {
         });
         jmPersonal.add(jMenuItem5);
 
-        jmiDepartamento.setText("Departamento");
+        jmiDepartamento.setText("Departamentos");
         jmiDepartamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiDepartamentoActionPerformed(evt);
             }
         });
         jmPersonal.add(jmiDepartamento);
+
+        jMenuItem7.setText("Puestos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jmPersonal.add(jMenuItem7);
 
         jmiEmpleados.setText("Empleados");
         jmiEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -201,6 +222,11 @@ public class vistaPrincipal extends javax.swing.JFrame {
         vma.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+      vistaPuesto vps = new vistaPuesto(this, true);
+      vps.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jMenu1;
@@ -211,6 +237,7 @@ public class vistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenu jmArticulos;
     private javax.swing.JMenu jmPersonal;
     private javax.swing.JMenuItem jmiDepartamento;
