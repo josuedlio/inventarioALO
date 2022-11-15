@@ -16,6 +16,8 @@ public class vistaCategoria extends javax.swing.JDialog {
     PreparedStatement ps;
     ResultSet rs;
     Connection cn;
+    int id ;
+    String nombre;
 
     public vistaCategoria(vistaPrincipal padre, boolean modal) {
         super(padre, modal);
@@ -39,6 +41,7 @@ public class vistaCategoria extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jtfCategoria = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtCategoria = new javax.swing.JTable();
@@ -57,6 +60,14 @@ public class vistaCategoria extends javax.swing.JDialog {
         });
         jPanel2.add(btnAgregar);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1);
+
         jPanel1.add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -69,6 +80,11 @@ public class vistaCategoria extends javax.swing.JDialog {
                 "ID", "Categoria"
             }
         ));
+        jtCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtCategoriaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtCategoria);
 
         jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -86,9 +102,26 @@ public class vistaCategoria extends javax.swing.JDialog {
         jtfCategoria.setText("");
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void jtCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtCategoriaMouseClicked
+         try {
+             this.rs.absolute(this.jtCategoria.getSelectedRow() + 1);
+            this.id = this.rs.getInt("idCategoria");
+            this.nombre = this.rs.getString("nombreCategoria");
+            jtfCategoria.setText(this.nombre);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_jtCategoriaMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        modificar(id);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -121,7 +154,6 @@ public class vistaCategoria extends javax.swing.JDialog {
     }
 
     private void agregarDatos() {
-
         String sQuery = """
                         insert into Categoria (nombreCategoria) values (?) 
                         
@@ -135,6 +167,23 @@ public class vistaCategoria extends javax.swing.JDialog {
                 loadDatos();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Ya existe el departamento", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    void modificar(int id){
+          String sQuery = "UPDATE Categoria set nombreCategoria = ? where idCategoria = ?";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setString(1, jtfCategoria.getText().toUpperCase());
+                ps.setInt(2, id);
+                ps.executeUpdate();
+                loadDatos();
+                jtfCategoria.setText("");
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }

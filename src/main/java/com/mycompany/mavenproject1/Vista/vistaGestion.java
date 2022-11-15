@@ -29,6 +29,8 @@ public class vistaGestion extends javax.swing.JInternalFrame {
     DefaultComboBoxModel dcbmCategoria;
     DefaultComboBoxModel dcbmArticulos;
     int idEmpleado;
+    
+    public static final String LOGO = "C:\\Users\\infraver\\OneDrive - AUTOMOTIVE LOGISTICS S.C\\Desktop\\Nueva carpeta\\mavenproject1\\src\\main\\resources\\imagenes\\ALO.png";
 
     public vistaGestion(vistaPrincipal padre) {
         initComponents();
@@ -408,14 +410,13 @@ public class vistaGestion extends javax.swing.JInternalFrame {
             
             Paragraph parrafo = new Paragraph();
             parrafo.setAlignment(Paragraph.ALIGN_CENTER);
-            parrafo.add("Reporte ALO \n\n");
             parrafo.setFont(FontFactory.getFont("Arial", 18, Font.BOLD, BaseColor.BLACK));
-            parrafo.add("Reporte de artículos entregados\n\n ");
+            parrafo.add("Responsiva de artículos entregados\n\n ");
 
             Paragraph parrafo2 = new Paragraph();
             parrafo2.setAlignment(Paragraph.ALIGN_JUSTIFIED);
             parrafo2.setFont(FontFactory.getFont("Arial", 15, Font.BOLD, BaseColor.BLACK));
-            parrafo2.add("Responsiva \n\n");
+//            parrafo2.add("Responsiva \n\n");
             parrafo2.setFont(FontFactory.getFont("Arial", 12, Font.BOLD, BaseColor.BLACK));
 
             parrafo2.add("Sirva la presente como comprobante oficial de entrega del activo fijo que pertenece a Automotive Logistics, S.C. para: "+jtfEmpleado.getText()+"\n"
@@ -425,14 +426,15 @@ public class vistaGestion extends javax.swing.JInternalFrame {
             Paragraph parrafo3 = new Paragraph();
             parrafo3.setAlignment(Paragraph.ALIGN_CENTER);
             parrafo3.setFont(FontFactory.getFont("Arial", 8, Font.BOLD, BaseColor.BLACK));
-            parrafo3.add("Nombre___________________________________________________Puesto___________________________________Firma____________Fecha___________________\n\n ");
+            parrafo3.add("Nombre________________________________Puesto___________________Firma____________Fecha___________________");
             
-            Image header = Image.getInstance("src/img/logo.png");
-            header.scaleToFit(300,300);
-            header.setAlignment(Chunk.ALIGN_CENTER);
+            Image logo = Image.getInstance(LOGO);
+            logo.scaleToFit(100,100);
+            logo.setAlignment(Chunk.ALIGN_LEFT);
+            
 
             doc.open(); //Abrio el documento pdf
-            doc.add(header);
+            doc.add(logo);
             
             doc.add(parrafo);
             doc.add(parrafo2);

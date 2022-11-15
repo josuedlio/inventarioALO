@@ -2,9 +2,16 @@ create database inventarioALO
 use inventarioALO
 
 
+create table Area(
+idArea int identity(1,1) primary key not null,
+nombreArea varchar(50) UNIQUE,
+)
+
 create table Departamento(
 idDepartamento int identity(1,1) primary key not null,
-nombreDepartamento varchar(70) unique
+nombreDepartamento varchar(70) unique,
+idArea int not null,
+constraint fk_area foreign key (idArea) references Area(idArea)
 )
 
 create table Zona(
@@ -23,6 +30,7 @@ idEmpleado int identity(1,1) primary key not null,
 nombre varchar(100),
 apellidoPaterno varchar(50),
 apellidoMaterno varchar(50),
+matricula varchar(20) unique,
 estatus varchar(8),
 fechaAlta varchar(12),
 fechaBaja varchar(12),
@@ -34,9 +42,11 @@ constraint fk_puestos foreign key (idPuesto) references Puesto(idPuesto),
 constraint fk_zona foreign key (idZona) references Zona(idZona)
 )
 
+insert into Area (nombreArea) values ('Area1')
+insert into Area (nombreArea) values ('Area2')
 
-insert into Departamento (nombreDepartamento) values ('TI')
-insert into Departamento (nombreDepartamento) values ('FINANZAS')
+insert into Departamento (nombreDepartamento,idArea) values ('TI',1)
+insert into Departamento (nombreDepartamento,idArea) values ('FINANZAS',2)
 
 insert into Puesto (nombrePuesto) values ('Pasate')
 insert into Puesto (nombrePuesto) values ('Jefe de Departamento')
@@ -45,10 +55,14 @@ insert into Zona (nombreZona,sigla) values ('VERACRUZ','VER')
 insert into Zona (nombreZona,sigla) values ('PUEBLA','PUE')
 insert into Zona (nombreZona,sigla) values ('QUERETARO','QRO')
 
-insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,estatus,fechaAlta,fechaBaja,idDepartamento,idPuesto,idZona)
-			values   ('El','Ma','caco ','Activo','02/11/2022','.',2,2,3)
+insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,matricula,estatus,fechaAlta,fechaBaja,idDepartamento,idPuesto,idZona)
+values('nombre','apellidoP','apellidoM',23421,'activo','fechaA','fechaB',1,1,1) 
 
 ------/////////////////Para mostrar en JAVA
+select Departamento.idDepartamento as idDepartamento, Departamento.nombreDepartamento as nombreDepartamento, Area.nombreArea from Departamento
+inner join Area on Area.idArea = Departamento.idArea
+
+
 select Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
 Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
 from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto
@@ -115,6 +129,7 @@ where Articulos.idCategoria = '1'
 create table Entrada(
 idEntrada int identity(1,1) primary key,
 cantidad int,
+stock int,
 fecha varchar(12),
 idArticulo int not null,
 constraint fk_articulo foreign key (idArticulo) references Articulos(idArticulo)
@@ -159,8 +174,16 @@ select Empleado.nombre AS nombre, Departamento.nombreDepartamento AS departament
 Gestion.cantidad AS cantidad, Gestion.fechaEntrega AS fecha from Gestion inner join Empleado ON Empleado.idEmpleado = Gestion.idEmpleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento
 inner join Puesto on Puesto.idPuesto = Empleado.idPuesto inner join Articulos on Articulos.idArticulo = Gestion.idArticulo 
 
+----Tabla Buscar Empleado
+select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto,Empleado.matricula as matricula, 
+Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona
+
+
+
 
 ----------------
+select * from Area
 select * from Departamento ORDER BY idDepartamento
 select * from Zona
 select * from Empleado
@@ -176,10 +199,12 @@ drop table Gestion
 drop table Empleado
 drop table Articulos
 drop table Departamento
+drop table Area
 drop table Zona
 drop table Puesto
 drop table Categoria
 drop table Marca 
 drop table Entrada
+
 
 

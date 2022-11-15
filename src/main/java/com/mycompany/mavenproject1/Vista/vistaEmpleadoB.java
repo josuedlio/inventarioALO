@@ -33,10 +33,9 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     DefaultComboBoxModel dcbmAgregarDepa;
     DefaultComboBoxModel dcbmAgregarZona;
     DefaultComboBoxModel dcbmPuesto;
-    
 
     int id;
-    String nombre,apellidop,apellidom,estatus;
+    String nombre, apellidop, apellidom, estatus;
 
     public vistaEmpleadoB(vistaPrincipal padre) {
         this.padre = padre;
@@ -61,6 +60,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         jtfEstatus.setBorder(BorderS);
         Border BorderP = new TitledBorder("Puesto");
         cbPuesto.setBorder(BorderP);
+        Border BorderM = new TitledBorder("Matricula");
+        jtfMatricula.setBorder(BorderM);
 
         this.dtmTablaBuscar = (DefaultTableModel) this.jTablaBuscarE.getModel();
         this.dcbmBuscarDepa = (DefaultComboBoxModel) this.cbBuscarDepartamento.getModel();
@@ -119,6 +120,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         btnAgregar = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
         cbPuesto = new javax.swing.JComboBox<>();
+        jtfMatricula = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -194,7 +196,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre", "Apellido P", "Apellido M", "Estatus", "Alta", "Departamento", "Puesto", "Zona"
+                "Nombre", "Apellido P", "Apellido M", "Puesto", "No. Empleado", "Departamento", "Área", "Zona", "Estatus"
             }
         ));
         jScrollPane1.setViewportView(jTablaBuscarE);
@@ -269,6 +271,12 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
             }
         });
 
+        jtfMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfMatriculaKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -291,7 +299,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfMatricula))
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(323, 323, 323)
@@ -303,7 +312,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jtfApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jtfApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -314,19 +323,22 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jtfEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jtfMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73)
                 .addComponent(jToggleButton1)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbAgregarZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnModificar)
-                            .addComponent(btnAgregar)))
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbAgregarZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(cbPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         vistaAgregarEmpleados.add(jPanel3);
@@ -384,21 +396,21 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnReiniciarActionPerformed
 
     private void jtfApellidoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfApellidoPActionPerformed
-        
-            
+
+
     }//GEN-LAST:event_jtfApellidoPActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if (jtfNombre.getText().isEmpty() || jtfApellidoP.getText().isEmpty() || jtfApellidoM.getText().isEmpty()
                 || jtfEstatus.getText().isEmpty() || jtfFechaAlta.getText().isEmpty() || jtfFechaBaja.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-        agregar();
+        } else {
+            agregar();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void jtfFechaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfFechaBajaActionPerformed
-        
+
     }//GEN-LAST:event_jtfFechaBajaActionPerformed
 
     private void jtfFechaBajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtfFechaBajaMouseClicked
@@ -407,9 +419,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         if (jToggleButton1.isSelected()) {
-            jtfEstatus.setText("ACTIVO");        
-        }
-        else{
+            jtfEstatus.setText("ACTIVO");
+        } else {
             jtfEstatus.setText("INACTIVO");
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
@@ -421,18 +432,18 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private void jTablaAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablaAgregarMouseClicked
         System.out.println("Aqui");
         try {
-            this.rs.absolute(this.jTablaAgregar.getSelectedRow()+1);
+            this.rs.absolute(this.jTablaAgregar.getSelectedRow() + 1);
             this.id = this.rs.getInt("id");
             this.nombre = this.rs.getString("nombre");
             this.apellidop = this.rs.getString("apellidoPaterno");
             this.apellidom = this.rs.getString("apellidoMaterno");
             this.estatus = this.rs.getString("estatus");
-            
+
             jtfNombre.setText(this.nombre);
             jtfApellidoP.setText(this.apellidop);
             jtfApellidoM.setText(this.apellidom);
             jtfEstatus.setText(this.estatus);
-            System.out.println("ID ROW--->"+id);
+            System.out.println("ID ROW--->" + id);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -445,6 +456,19 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private void formInternalFrameIconified(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameIconified
         // TODO add your handling code here:
     }//GEN-LAST:event_formInternalFrameIconified
+
+    private void jtfMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfMatriculaKeyTyped
+        int key = evt.getKeyChar();
+
+        boolean numeros = key >= 48 && key <= 57;
+        if (!numeros) {
+            evt.consume();
+        }
+
+        if (jtfMatricula.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfMatriculaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -473,6 +497,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfEstatus;
     private javax.swing.JTextField jtfFechaAlta;
     private javax.swing.JTextField jtfFechaBaja;
+    private javax.swing.JTextField jtfMatricula;
     private javax.swing.JTextField jtfNombre;
     private javax.swing.JPanel vistaAgregarEmpleados;
     private javax.swing.JPanel vistaGeneralEmpleados;
@@ -483,15 +508,15 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         String sQuery = "";
         if (id <= 0) {
             sQuery = """
-                   select Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
-                   Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
-                   from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto
+                   select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto, 
+                   Empleado.matricula as matricula,Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+                   inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona
                    """;
         } else {
             sQuery = String.format("""
-                                   select Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
-                                   Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
-                                   from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto where Empleado.idZona = %d
+                                  select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto, 
+                                   Empleado.matricula as matricula,Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+                                   inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona where Empleado.idZona = %d
                                    """, id);
         }
 
@@ -506,11 +531,12 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                         rs.getString("nombre"),
                         rs.getString("apellidoPaterno"),
                         rs.getString("apellidoMaterno"),
-                        rs.getString("estatus"),
-                        rs.getString("fechaAlta"),
-                        rs.getString("nombreDepartamento"),
                         rs.getString("nombrePuesto"),
-                        rs.getString("nombreZona")
+                        rs.getString("matricula"),
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("nombreArea"),
+                        rs.getString("nombreZona"),
+                        rs.getString("estatus")
                     });
 
                 }
@@ -526,9 +552,9 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         String sQuery = "";
 
         sQuery = String.format("""
-                                  select Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
-                                   Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
-                                   from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto 
+                                 select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto, 
+                                   Empleado.matricula as matricula,Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+                                   inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona 
                                where Empleado.idDepartamento = %d
                                    """, id);
         if (this.padre.db.conn != null) {
@@ -542,11 +568,12 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                         rs.getString("nombre"),
                         rs.getString("apellidoPaterno"),
                         rs.getString("apellidoMaterno"),
-                        rs.getString("estatus"),
-                        rs.getString("fechaAlta"),
-                        rs.getString("nombreDepartamento"),
                         rs.getString("nombrePuesto"),
-                        rs.getString("nombreZona")
+                        rs.getString("matricula"),
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("nombreArea"),
+                        rs.getString("nombreZona"),
+                        rs.getString("estatus")
                     });
 
                 }
@@ -634,10 +661,10 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    private void agregar(){
-        String sQuery= "insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,estatus,fechaAlta,fechaBaja,idDepartamento,idPuesto,idZona)\n" +
-"			values (?,?,?,?,?,?,?,?,?)";
+
+    private void agregar() {
+        String sQuery = "insert into Empleado (nombre,apellidoPaterno,apellidoMaterno,matricula,estatus,fechaAlta,fechaBaja,idDepartamento,idPuesto,idZona)\n"
+                + "			values (?,?,?,?,?,?,?,?,?,?)";
         ComboItems oDeptos = (ComboItems) this.cbAgregarDepa.getSelectedItem();
         int idDepartamentos = 0;
 
@@ -650,37 +677,38 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         if (this.cbAgregarZona.getSelectedItem() != null) {
             idZonas = Integer.parseInt(oDeptos.getKey());
         }
-        
+
         ComboItems oPuesto = (ComboItems) this.cbPuesto.getSelectedItem();
-        int idPuesto=0;
+        int idPuesto = 0;
         if (this.cbPuesto.getSelectedItem() != null) {
             idPuesto = Integer.parseInt(oPuesto.getKey());
         }
-        
+
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                 ps.setString(1, jtfNombre.getText().toUpperCase());
+                ps.setString(1, jtfNombre.getText().toUpperCase());
                 ps.setString(2, jtfApellidoP.getText().toUpperCase());
                 ps.setString(3, jtfApellidoM.getText().toUpperCase());
-                ps.setString(4, jtfEstatus.getText().toUpperCase());
-                ps.setString(5, jtfFechaAlta.getText());
+                ps.setString(4, jtfMatricula.getText().toUpperCase());
+                ps.setString(5, jtfEstatus.getText().toUpperCase());
                 ps.setString(6, jtfFechaAlta.getText());
-                ps.setInt(7, idDepartamentos);
-                ps.setInt(8, idPuesto);
-                ps.setInt(9, idZonas);
+                ps.setString(7, jtfFechaAlta.getText());
+                ps.setInt(8, idDepartamentos);
+                ps.setInt(9, idPuesto);
+                ps.setInt(10, idZonas);
                 ps.execute();
                 loadEmpleados();
                 limpiar();
             } catch (Exception e) {
                 System.out.println(e);
             }
-        }    
+        }
     }
-    
-    void modificar(int id){
-        String sQuery="update Empleado set estatus = ?,fechaBaja = ? where idEmpleado = ?";
+
+    void modificar(int id) {
+        String sQuery = "update Empleado set estatus = ?,fechaBaja = ? where idEmpleado = ?";
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -691,12 +719,13 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                 ps.executeUpdate();
                 loadEmpleados();
                 limpiar();
-            } catch (Exception e) { System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }
-    
-    void limpiar(){
+
+    void limpiar() {
         jtfNombre.setText("");
         jtfApellidoP.setText("");
         jtfApellidoM.setText("");
@@ -704,14 +733,16 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         jtfFechaAlta.setText("");
         jtfFechaBaja.setText("");
         jtfEstatus.setText("");
+        jtfMatricula.setText("");
     }
+
     public static String getFecha() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String date = simpleDateFormat.format(new Date());
         return date;
     }
-    
-     private void loadPuesto() {
+
+    private void loadPuesto() {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sQuery = "Select idPuesto, nombrePuesto from Puesto";
@@ -723,7 +754,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                 while (rs.next()) {
                     this.dcbmPuesto.addElement(
                             new ComboItems(Integer.toString(
-                                    rs.getInt("idPuesto")), rs.getString("nombrePuesto")));           
+                                    rs.getInt("idPuesto")), rs.getString("nombrePuesto")));
                 }
             } catch (Exception e) {
                 System.out.println(e);

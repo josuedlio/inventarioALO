@@ -22,6 +22,8 @@ public class vistaMarca extends javax.swing.JDialog {
     DefaultTableModel dtmMarca;
     PreparedStatement ps;
     ResultSet rs;
+    int id;
+    String nombre;
 
     public vistaMarca(vistaPrincipal padre, boolean modal) {
         super(padre, modal);
@@ -49,6 +51,7 @@ public class vistaMarca extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jtfMarca = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaMarca = new javax.swing.JTable();
@@ -70,6 +73,14 @@ public class vistaMarca extends javax.swing.JDialog {
         });
         jPanel2.add(jButton1);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2);
+
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -82,6 +93,11 @@ public class vistaMarca extends javax.swing.JDialog {
                 "ID", "Nombre"
             }
         ));
+        TablaMarca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaMarcaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaMarca);
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -104,10 +120,26 @@ public class vistaMarca extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void TablaMarcaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMarcaMouseClicked
+        try {
+             this.rs.absolute(this.TablaMarca.getSelectedRow() + 1);
+            this.id = this.rs.getInt("idMarca");
+            this.nombre = this.rs.getString("nombreMarca");
+            jtfMarca.setText(this.nombre);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_TablaMarcaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        modificar(id);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaMarca;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -147,6 +179,23 @@ public class vistaMarca extends javax.swing.JDialog {
                 loadDatos();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Tienes un error", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    void modificar(int id){
+         String sQuery = "UPDATE Marca set nombreMarca = ? where idMarca = ?";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setString(1, jtfMarca.getText().toUpperCase());
+                ps.setInt(2, id);
+                ps.executeUpdate();
+                loadDatos();
+                jtfMarca.setText("");
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }

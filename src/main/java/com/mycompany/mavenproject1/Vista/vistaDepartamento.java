@@ -5,11 +5,13 @@
 package com.mycompany.mavenproject1.Vista;
 
 import com.mycompany.mavenproject1.ConexionSQL;
+import com.mycompany.mavenproject1.Controlador.ComboItems;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -21,7 +23,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class vistaDepartamento extends javax.swing.JDialog {
 
-    public DefaultTableModel dtmDepartamento;
+    DefaultTableModel dtmDepartamento;
+    DefaultComboBoxModel dcbmAreas;
+
     vistaPrincipal padre;
     PreparedStatement ps;
     ResultSet rs;
@@ -42,7 +46,13 @@ public class vistaDepartamento extends javax.swing.JDialog {
         jtfDepartamento.setColumns(15);
 
         this.dtmDepartamento = (DefaultTableModel) this.jTablaDepartamento.getModel();
+        this.dcbmAreas = (DefaultComboBoxModel) this.cbAreas.getModel();
+        
+        Border bordea = new TitledBorder("Áreas");
+        cbAreas.setBorder(bordea);
+
         loadDatos();
+        loadAreas();
 
     }
 
@@ -58,6 +68,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jpPrincipal = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        cbAreas = new javax.swing.JComboBox<>();
         jtfDepartamento = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -70,6 +81,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
 
         jpPrincipal.setLayout(new java.awt.BorderLayout());
 
+        jPanel2.add(cbAreas);
         jPanel2.add(jtfDepartamento);
 
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"))); // NOI18N
@@ -80,8 +92,8 @@ public class vistaDepartamento extends javax.swing.JDialog {
         });
         jPanel2.add(btnAgregar);
 
-        btnActualizar.setText("Actualizar");
-        btnActualizar.setEnabled(false);
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"))); // NOI18N
+        btnActualizar.setFocusable(false);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -89,8 +101,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
         });
         jPanel2.add(btnActualizar);
 
-        btnBorrar.setText("Borrar");
-        btnBorrar.setEnabled(false);
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/trash_bin_icon-icons.com_67981.png"))); // NOI18N
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
@@ -107,7 +118,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
 
             },
             new String [] {
-                "ID", "Departamento"
+                "ID", "Departamento", "Área"
             }
         ));
         jTablaDepartamento.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,7 +143,6 @@ public class vistaDepartamento extends javax.swing.JDialog {
         } else {
             agregarDatos();
             jtfDepartamento.setText("");
-            loadDatos();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -168,6 +178,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JComboBox<String> cbAreas;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -178,32 +189,44 @@ public class vistaDepartamento extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void agregarDatos() {
-        String sQuery = """
-                        insert into Departamento (nombreDepartamento) values (?) 
-                        
-                        """;
+        String sQuery = "INSERT INTO Departamento (nombreDepartamento,idArea) values (?,?)";
+        ComboItems oAreas = (ComboItems) this.cbAreas.getSelectedItem();
+        int idArea = 0;
+
+        if (this.cbAreas.getSelectedItem() != null) {
+            idArea = Integer.parseInt(oAreas.getKey());
+        }
+
         if (this.padre.db.conn != null) {
             try {
-                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ps.setString(1, jtfDepartamento.getText().toUpperCase());
-                ps.execute(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                ps.setInt(2, idArea);
+                ps.execute();
                 loadDatos();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Ya existe el departamento", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
     }
 
     private void actualizarDatos(Integer id) {
-        String sQuery = "update Departamento set nombreDepartamento = ? where  idDepartamento = ?";
+        String sQuery = "update Departamento set nombreDepartamento = ?, idArea = ? where  idDepartamento = ?";
+        ComboItems oAreas = (ComboItems) this.cbAreas.getSelectedItem();
+        int idArea = 0;
+
+        if (this.cbAreas.getSelectedItem() != null) {
+            idArea = Integer.parseInt(oAreas.getKey());
+        }
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setString(1, jtfDepartamento.getText().toUpperCase());
-                ps.setInt(2, id);
+                ps.setInt(2, idArea);
+                ps.setInt(3, id);
                 ps.executeUpdate(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                jtfDepartamento.setText("");
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "No puedes actualizar ya existe un departamento con ese nombre", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e);
@@ -228,7 +251,8 @@ public class vistaDepartamento extends javax.swing.JDialog {
 
     private void loadDatos() {
         String sQuery = """
-                       SELECT idDepartamento, nombreDepartamento FROM Departamento
+                      select Departamento.idDepartamento as idDepartamento, Departamento.nombreDepartamento as nombreDepartamento, Area.nombreArea from Departamento
+                        inner join Area on Area.idArea = Departamento.idArea
                         """;
         if (this.padre.db.conn != null) {
             try {
@@ -240,8 +264,28 @@ public class vistaDepartamento extends javax.swing.JDialog {
                 while (rs.next()) {
                     this.dtmDepartamento.addRow(new Object[]{
                         rs.getString("idDepartamento"),
-                        rs.getString("nombreDepartamento")
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("nombreArea")
                     });
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    void loadAreas() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sQuery = "SELECT idArea, nombreArea FROM Area";
+
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    this.dcbmAreas.addElement(new ComboItems(Integer.toString(rs.getInt("idArea")), rs.getString("nombreArea")));
                 }
             } catch (Exception e) {
                 System.out.println(e);

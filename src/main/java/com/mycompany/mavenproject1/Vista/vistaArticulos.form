@@ -61,7 +61,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnAgregar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Agregar"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"/>
+                    </Property>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarActionPerformed"/>
@@ -74,7 +76,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnModificar">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Modificar"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"/>
+                    </Property>
                   </Properties>
                 </Component>
               </SubComponents>

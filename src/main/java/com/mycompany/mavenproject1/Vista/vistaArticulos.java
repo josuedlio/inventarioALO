@@ -97,7 +97,7 @@ public class vistaArticulos extends javax.swing.JDialog {
 
         jpNorte.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        btnAgregar.setText("Agregar");
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1904677-add-addition-calculate-charge-create-new-plus_122527.png"))); // NOI18N
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -108,7 +108,7 @@ public class vistaArticulos extends javax.swing.JDialog {
         btnEliminar.setText("Borrar");
         jpNorte.add(btnEliminar);
 
-        btnModificar.setText("Modificar");
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil-striped-symbol-for-interface-edit-buttons_icon-icons.com_56782.png"))); // NOI18N
         jpNorte.add(btnModificar);
 
         jPanel2.add(jpNorte, java.awt.BorderLayout.PAGE_START);
