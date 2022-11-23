@@ -1,6 +1,8 @@
 create database inventarioALO
 use inventarioALO
 
+execute sp_helpindex Area
+
 
 create table Area(
 idArea int identity(1,1) primary key not null,
@@ -25,12 +27,20 @@ idPuesto int identity(1,1) primary key not null,
 nombrePuesto varchar(50) UNIQUE,
 )
 
+create nonclustered index tablaEmpledo_Matricula ON Empleado (matricula asc) 
+create nonclustered index tablaEmpledo_Nombre ON Empleado (nombre asc) 
+drop index tablaEmpledo_Nombre ON Empleado 
+
 create table Empleado(
 idEmpleado int identity(1,1) primary key not null,
 nombre varchar(100),
 apellidoPaterno varchar(50),
 apellidoMaterno varchar(50),
 matricula varchar(20) unique,
+correo varchar(30),
+correodos varchar(30),
+usuarioForti varchar(15),
+usuarioAspel varchar(15),
 estatus varchar(8),
 fechaAlta varchar(12),
 fechaBaja varchar(12),

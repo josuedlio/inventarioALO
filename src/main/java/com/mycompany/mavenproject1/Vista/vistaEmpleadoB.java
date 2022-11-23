@@ -7,6 +7,7 @@ package com.mycompany.mavenproject1.Vista;
 import com.mycompany.mavenproject1.Controlador.ComboItems;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
@@ -35,7 +36,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     DefaultComboBoxModel dcbmPuesto;
 
     int id;
-    String nombre, apellidop, apellidom, estatus;
+    String nombre, apellidop, apellidom, estatus, matricula;
 
     public vistaEmpleadoB(vistaPrincipal padre) {
         this.padre = padre;
@@ -48,6 +49,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         cbAgregarZona.setBorder(bordeZ);
         Border BordeN = new TitledBorder("Nombre(s)");
         jtfNombre.setBorder(BordeN);
+        jtfBuscarN.setBorder(BordeN);
+        jtfBuscarN.setColumns(10);
         Border Bordeap = new TitledBorder("Apellido Paterno");
         jtfApellidoP.setBorder(Bordeap);
         Border Bordeam = new TitledBorder("Apellido Materno");
@@ -62,6 +65,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         cbPuesto.setBorder(BorderP);
         Border BorderM = new TitledBorder("Matricula");
         jtfMatricula.setBorder(BorderM);
+        jtfBuscarMatricula.setBorder(BorderM);
+        jtfBuscarMatricula.setColumns(6);
 
         this.dtmTablaBuscar = (DefaultTableModel) this.jTablaBuscarE.getModel();
         this.dcbmBuscarDepa = (DefaultComboBoxModel) this.cbBuscarDepartamento.getModel();
@@ -74,6 +79,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
 
         cbBuscarDepartamento.setEnabled(false);
         cbBuscarZona.setEnabled(false);
+        jtfBuscarN.setEnabled(false);
+        jtfBuscarMatricula.setEnabled(false);
         //////////////////////////////Buscar/////////////////////////////////////////////////
         loadZonas();
         loadDepas();
@@ -85,6 +92,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         jtfFechaAlta.setText(getFecha());
         jtfFechaBaja.setText(getFecha());
         jtfEstatus.setEnabled(false);
+        jtfEstatus.setText("ACTIVO");
         loadPuesto();
     }
 
@@ -92,10 +100,16 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoBoton1 = new javax.swing.ButtonGroup();
         Principal = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         vistaGeneralEmpleados = new javax.swing.JPanel();
         generalNorte = new javax.swing.JPanel();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jtfBuscarMatricula = new javax.swing.JTextField();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jtfBuscarN = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         cbBuscarZona = new javax.swing.JComboBox<>();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -121,6 +135,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         cbPuesto = new javax.swing.JComboBox<>();
         jtfMatricula = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -147,8 +162,55 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
 
         Principal.setLayout(new java.awt.BorderLayout());
 
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
+
         vistaGeneralEmpleados.setLayout(new java.awt.BorderLayout());
 
+        grupoBoton1.add(jRadioButton4);
+        jRadioButton4.setText("Buscar por Matricula");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+        generalNorte.add(jRadioButton4);
+
+        jtfBuscarMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfBuscarMatriculaKeyTyped(evt);
+            }
+        });
+        generalNorte.add(jtfBuscarMatricula);
+
+        grupoBoton1.add(jRadioButton3);
+        jRadioButton3.setText("Buscar por Nombre");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
+        generalNorte.add(jRadioButton3);
+
+        jtfBuscarN.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtfBuscarNKeyTyped(evt);
+            }
+        });
+        generalNorte.add(jtfBuscarN);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/seo-social-web-network-internet_340_icon-icons.com_61497 (1).png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        generalNorte.add(jButton2);
+
+        grupoBoton1.add(jRadioButton1);
         jRadioButton1.setText("Buscar por Zona");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +226,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         });
         generalNorte.add(cbBuscarZona);
 
+        grupoBoton1.add(jRadioButton2);
         jRadioButton2.setText("Buscar por Departamento");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,7 +242,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         });
         generalNorte.add(cbBuscarDepartamento);
 
-        btnReiniciar.setIcon(new javax.swing.ImageIcon("C:\\Users\\infraver\\Downloads\\update_sync_reload_reset_icon_229478 (1).png")); // NOI18N
+        btnReiniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/btnreset.png"))); // NOI18N
         btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReiniciarActionPerformed(evt);
@@ -214,7 +277,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Apellido", "Apellido M", "Estatus", "Fecha Ingreso", "Fecha Baja", "Departamento", "Puesto", "Zona"
+                "ID", "Nombre", "Apellido", "Apellido M", "Estatus", "Fecha Ingreso", "Fecha Baja", "Matricula", "Departamento", "Puesto", "Zona"
             }
         ));
         jTablaAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -277,6 +340,13 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/trash_bin_icon-icons.com_67981.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -289,23 +359,25 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                     .addComponent(jtfFechaAlta)
                     .addComponent(jtfFechaBaja)
                     .addComponent(jtfEstatus)
+                    .addComponent(jtfMatricula)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(323, 323, 323)
+                        .addComponent(jToggleButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(cbAgregarZona, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(btnModificar)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cbPuesto, 0, 242, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jtfMatricula))
+                        .addComponent(cbAgregarDepa, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(323, 323, 323)
-                .addComponent(jToggleButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,7 +410,9 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(cbPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(268, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(211, Short.MAX_VALUE))
         );
 
         vistaAgregarEmpleados.add(jPanel3);
@@ -363,6 +437,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         if (jRadioButton1.isSelected()) {
             this.cbBuscarZona.setEnabled(true);
             this.cbBuscarDepartamento.setEnabled(false);
+            this.jtfBuscarN.setEnabled(false);
+            jtfBuscarMatricula.setEnabled(false);
         } else {
             this.cbBuscarZona.setEnabled(false);
         }
@@ -382,6 +458,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         if (jRadioButton2.isSelected()) {
             this.cbBuscarZona.setEnabled(false);
             this.cbBuscarDepartamento.setEnabled(true);
+            this.jtfBuscarN.setEnabled(false);
         } else {
             this.cbBuscarDepartamento.setEnabled(false);
         }
@@ -438,11 +515,13 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
             this.apellidop = this.rs.getString("apellidoPaterno");
             this.apellidom = this.rs.getString("apellidoMaterno");
             this.estatus = this.rs.getString("estatus");
+            this.matricula = this.rs.getString("matricula");
 
             jtfNombre.setText(this.nombre);
             jtfApellidoP.setText(this.apellidop);
             jtfApellidoM.setText(this.apellidom);
             jtfEstatus.setText(this.estatus);
+            jtfMatricula.setText(this.matricula);
             System.out.println("ID ROW--->" + id);
         } catch (Exception e) {
             System.out.println(e);
@@ -470,6 +549,78 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtfMatriculaKeyTyped
 
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        int id = 0;
+        loadBuscarZona(id);
+        loadEmpleados();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        borrar(this.id);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        if (jRadioButton3.isSelected()) {
+            this.cbBuscarZona.setEnabled(false);
+            this.cbBuscarDepartamento.setEnabled(false);
+            this.jtfBuscarN.setEnabled(true);
+            this.jtfBuscarMatricula.setEnabled(false);
+        }
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.out.println("Hola");
+        if (jRadioButton3.isSelected()) {
+            buscarNombre(jtfBuscarN.getText().toUpperCase());
+        }else if (jRadioButton4.isSelected()){
+            buscarMatricula(jtfBuscarMatricula.getText());
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        if (jRadioButton4.isSelected()) {
+            this.cbBuscarZona.setEnabled(false);
+            this.cbBuscarDepartamento.setEnabled(false);
+            this.jtfBuscarN.setEnabled(false);
+            this.jtfBuscarMatricula.setEnabled(true);
+        }
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jtfBuscarMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarMatriculaKeyTyped
+        // TODO add your handling code here:
+         int key = evt.getKeyChar();
+
+        boolean numeros = key >= 48 && key <= 57;
+        if (!numeros) {
+            evt.consume();
+        }
+
+        if (jtfBuscarMatricula.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtfBuscarMatriculaKeyTyped
+
+    private void jtfBuscarNKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtfBuscarNKeyTyped
+        char caracter = evt.getKeyChar();
+        if (Character.isLowerCase(caracter)) {
+            evt.setKeyChar(Character.toUpperCase(caracter));
+        }
+        
+        if( Character.isLowerCase(caracter) ){
+            evt.setKeyChar(Character.toUpperCase(caracter));
+            String filtro = this.jtfBuscarN.getText().toUpperCase();
+            
+            if( filtro.isBlank() ){
+                this.buscarNombre(" ");
+            }else{
+                this.buscarNombre(filtro);
+            }
+        }
+        
+        
+    }//GEN-LAST:event_jtfBuscarNKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Principal;
@@ -482,10 +633,15 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbBuscarZona;
     private javax.swing.JComboBox<String> cbPuesto;
     private javax.swing.JPanel generalNorte;
+    private javax.swing.ButtonGroup grupoBoton1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -494,6 +650,8 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField jtfApellidoM;
     private javax.swing.JTextField jtfApellidoP;
+    private javax.swing.JTextField jtfBuscarMatricula;
+    private javax.swing.JTextField jtfBuscarN;
     private javax.swing.JTextField jtfEstatus;
     private javax.swing.JTextField jtfFechaAlta;
     private javax.swing.JTextField jtfFechaBaja;
@@ -632,7 +790,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
     private void loadEmpleados() {
         String sQuery = """
                        select Empleado.idEmpleado as id,Empleado.nombre as nombre, Empleado.apellidoPaterno as apellidoPaterno, Empleado.apellidoMaterno as apellidoMaterno,
-                        Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Empleado.fechaBaja as fechaBaja,Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
+                        Empleado.estatus as estatus, Empleado.fechaAlta as fechaAlta, Empleado.fechaBaja as fechaBaja,Empleado.matricula as matricula,Departamento.nombreDepartamento as nombreDepartamento,Puesto.nombrePuesto as nombrePuesto ,Zona.nombreZona as nombreZona
                         from Empleado inner join Departamento on Departamento.idDepartamento = Empleado.idDepartamento inner join Zona on Zona.idZona = Empleado.idZona inner join Puesto on Puesto.idPuesto = Empleado.idPuesto
                         """;
         if (this.padre.db.conn != null) {
@@ -651,6 +809,7 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                         rs.getString("estatus"),
                         rs.getString("fechaAlta"),
                         rs.getString("fechaBaja"),
+                        rs.getString("matricula"),
                         rs.getString("nombreDepartamento"),
                         rs.getString("nombrePuesto"),
                         rs.getString("nombreZona")
@@ -703,19 +862,24 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                 limpiar();
             } catch (Exception e) {
                 System.out.println(e);
+                JOptionPane.showMessageDialog(this, "Se ha detectado un error", "¡Error!", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     void modificar(int id) {
-        String sQuery = "update Empleado set estatus = ?,fechaBaja = ? where idEmpleado = ?";
+        String sQuery = "update Empleado set nombre = ?,apellidoPaterno=?, apellidoMaterno =?,estatus = ?,fechaBaja = ?, matricula = ? where idEmpleado = ?";
         if (this.padre.db.conn != null) {
             try {
                 ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_READ_ONLY);
-                ps.setString(1, jtfEstatus.getText());
-                ps.setString(2, jtfFechaBaja.getText());
-                ps.setInt(3, id);
+                ps.setString(1, jtfNombre.getText().toUpperCase());
+                ps.setString(2, jtfApellidoP.getText().toUpperCase());
+                ps.setString(3, jtfApellidoM.getText().toUpperCase());
+                ps.setString(4, jtfEstatus.getText());
+                ps.setString(5, jtfFechaBaja.getText());
+                ps.setString(6, jtfMatricula.getText());
+                ps.setInt(7, id);
                 ps.executeUpdate();
                 loadEmpleados();
                 limpiar();
@@ -755,6 +919,93 @@ public class vistaEmpleadoB extends javax.swing.JInternalFrame {
                     this.dcbmPuesto.addElement(
                             new ComboItems(Integer.toString(
                                     rs.getInt("idPuesto")), rs.getString("nombrePuesto")));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void borrar(int id) {
+        String sQuery = "delete from Empleado where idEmpleado = ?";
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setInt(1, id);
+                ps.executeUpdate(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                loadEmpleados();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "No puedes borrar este empleado", "Error", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+    }
+
+    void buscarNombre(String nombre) {
+        String sQuery = """
+                                 select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto, 
+                                   Empleado.matricula as matricula,Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+                                   inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona 
+                               where Empleado.nombre like ?
+                                   """;
+
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setString(1, "%"+nombre+"%");
+                rs = ps.executeQuery();
+                this.dtmTablaBuscar.setRowCount(0);
+                while (rs.next()) {
+                    this.dtmTablaBuscar.addRow(new Object[]{
+                        rs.getString("nombre"),
+                        rs.getString("apellidoPaterno"),
+                        rs.getString("apellidoMaterno"),
+                        rs.getString("nombrePuesto"),
+                        rs.getString("matricula"),
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("nombreArea"),
+                        rs.getString("nombreZona"),
+                        rs.getString("estatus")
+                    });
+
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+    }
+
+    private void buscarMatricula(String text) {
+       String sQuery = """
+                                 select Empleado.nombre AS nombre, Empleado.apellidoPaterno AS apellidoPaterno, Empleado.apellidoMaterno AS apellidoMaterno, Puesto.nombrePuesto AS nombrePuesto, 
+                                   Empleado.matricula as matricula,Departamento.nombreDepartamento AS nombreDepartamento,Area.nombreArea AS nombreArea,Zona.nombreZona AS nombreZona, Empleado.estatus AS estatus from Empleado inner join Puesto ON Puesto.idPuesto = Empleado.idPuesto
+                                   inner join Departamento ON Departamento.idDepartamento = Empleado.idDepartamento inner join Area on Area.idArea = Departamento.idDepartamento inner join Zona ON Zona.idZona = Empleado.idZona 
+                               where Empleado.matricula = ?
+                                   """;
+
+        if (this.padre.db.conn != null) {
+            try {
+                ps = this.padre.db.conn.prepareStatement(sQuery, ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_READ_ONLY);
+                ps.setString(1, text);
+                rs = ps.executeQuery();
+                this.dtmTablaBuscar.setRowCount(0);
+                while (rs.next()) {
+                    this.dtmTablaBuscar.addRow(new Object[]{
+                        rs.getString("nombre"),
+                        rs.getString("apellidoPaterno"),
+                        rs.getString("apellidoMaterno"),
+                        rs.getString("nombrePuesto"),
+                        rs.getString("matricula"),
+                        rs.getString("nombreDepartamento"),
+                        rs.getString("nombreArea"),
+                        rs.getString("nombreZona"),
+                        rs.getString("estatus")
+                    });
+
                 }
             } catch (Exception e) {
                 System.out.println(e);

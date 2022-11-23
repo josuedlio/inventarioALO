@@ -242,6 +242,7 @@ public class vistaDepartamento extends javax.swing.JDialog {
                         ResultSet.CONCUR_READ_ONLY);
                 ps.setInt(1, id);
                 ps.executeUpdate(); //no regresa un conjunto de resultados update Departamento set nombreDepartamento = ? where  idDepartamento = ?
+                
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "No puedes borrar este departamento", "Error", JOptionPane.ERROR_MESSAGE);
 

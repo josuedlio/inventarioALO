@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="grupoBoton1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
     <Property name="iconifiable" type="boolean" value="true"/>
@@ -39,6 +43,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
       <SubComponents>
         <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="Center"/>
@@ -67,8 +74,53 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                   <SubComponents>
+                    <Component class="javax.swing.JRadioButton" name="jRadioButton4">
+                      <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grupoBoton1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Buscar por Matricula"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton4ActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jtfBuscarMatricula">
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfBuscarMatriculaKeyTyped"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="jRadioButton3">
+                      <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grupoBoton1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Buscar por Nombre"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton3ActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jtfBuscarN">
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfBuscarNKeyTyped"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButton2">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/seo-social-web-network-internet_340_icon-icons.com_61497 (1).png"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                      </Events>
+                    </Component>
                     <Component class="javax.swing.JRadioButton" name="jRadioButton1">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grupoBoton1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Buscar por Zona"/>
                       </Properties>
                       <Events>
@@ -85,6 +137,9 @@
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRadioButton2">
                       <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="grupoBoton1"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="Buscar por Departamento"/>
                       </Properties>
                       <Events>
@@ -92,6 +147,11 @@
                       </Events>
                     </Component>
                     <Component class="javax.swing.JComboBox" name="cbBuscarDepartamento">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="0"/>
+                        </Property>
+                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbBuscarDepartamentoActionPerformed"/>
                       </Events>
@@ -102,7 +162,7 @@
                     <Component class="javax.swing.JButton" name="btnReiniciar">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="2" name="C:\Users\infraver\Downloads\update_sync_reload_reset_icon_229478 (1).png"/>
+                          <Image iconType="3" name="/imagenes/btnreset.png"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -231,7 +291,7 @@
                     <Component class="javax.swing.JTable" name="jTablaAgregar">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="10" rowCount="0">
+                          <Table columnCount="11" rowCount="0">
                             <Column editable="true" title="ID" type="java.lang.Object"/>
                             <Column editable="true" title="Nombre" type="java.lang.Object"/>
                             <Column editable="true" title="Apellido" type="java.lang.Object"/>
@@ -239,6 +299,7 @@
                             <Column editable="true" title="Estatus" type="java.lang.Object"/>
                             <Column editable="true" title="Fecha Ingreso" type="java.lang.Object"/>
                             <Column editable="true" title="Fecha Baja" type="java.lang.Object"/>
+                            <Column editable="true" title="Matricula" type="java.lang.Object"/>
                             <Column editable="true" title="Departamento" type="java.lang.Object"/>
                             <Column editable="true" title="Puesto" type="java.lang.Object"/>
                             <Column editable="true" title="Zona" type="java.lang.Object"/>
@@ -246,6 +307,11 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -321,11 +387,20 @@
                                   <Component id="jtfFechaAlta" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jtfFechaBaja" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jtfEstatus" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jtfMatricula" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="323" max="-2" attributes="0"/>
+                                      <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="cbAgregarZona" min="-2" pref="201" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                                      <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jButton1" max="32767" attributes="0"/>
+                                          <Component id="btnModificar" max="32767" attributes="0"/>
+                                      </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="cbPuesto" pref="242" max="32767" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -333,14 +408,8 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="cbAgregarDepa" min="-2" pref="200" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jtfMatricula" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="323" max="-2" attributes="0"/>
-                              <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -380,7 +449,9 @@
                                       <Component id="cbPuesto" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="268" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="211" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -457,6 +528,16 @@
                     <Component class="javax.swing.JTextField" name="jtfMatricula">
                       <Events>
                         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtfMatriculaKeyTyped"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="jButton1">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/trash_bin_icon-icons.com_67981.png"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

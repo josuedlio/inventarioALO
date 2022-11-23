@@ -70,8 +70,10 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jcbArticulos = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtfMotivo = new javax.swing.JTextArea();
         jcmbCategoria = new javax.swing.JComboBox<>();
+        jcbArticulos = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jtfEmpleado = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
@@ -86,8 +88,6 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jpCentro = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtGestion = new javax.swing.JTable();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtfMotivo = new javax.swing.JTextArea();
 
         setClosable(true);
         setIconifiable(true);
@@ -97,14 +97,11 @@ public class vistaGestion extends javax.swing.JInternalFrame {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jcbArticulos.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jcbArticulosCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jPanel3.add(jcbArticulos);
+        jtfMotivo.setColumns(20);
+        jtfMotivo.setRows(5);
+        jScrollPane1.setViewportView(jtfMotivo);
+
+        jPanel3.add(jScrollPane1);
 
         jcmbCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +109,20 @@ public class vistaGestion extends javax.swing.JInternalFrame {
             }
         });
         jPanel3.add(jcmbCategoria);
+
+        jcbArticulos.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jcbArticulosCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jcbArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbArticulosActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jcbArticulos);
 
         jLabel1.setText("Nombre");
         jPanel3.add(jLabel1);
@@ -132,6 +143,11 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator2);
 
+        jtfCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCantidadActionPerformed(evt);
+            }
+        });
         jtfCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtfCantidadKeyTyped(evt);
@@ -185,12 +201,6 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         jPanel1.add(jpCentro, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
-
-        jtfMotivo.setColumns(20);
-        jtfMotivo.setRows(5);
-        jScrollPane1.setViewportView(jtfMotivo);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -246,6 +256,14 @@ public class vistaGestion extends javax.swing.JInternalFrame {
         this.loadDatos(reset);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jcbArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbArticulosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbArticulosActionPerformed
+
+    private void jtfCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCantidadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
